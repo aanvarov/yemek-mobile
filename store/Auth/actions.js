@@ -7,16 +7,16 @@ export const signInSuccess = (payload = {user: {}, token: ''}) => {
   };
 };
 
-export const updateProfileAction = (payload = {}) => {
-  return {
-    type: types.UPDATE_PROFILE,
-    payload: JSON.parse(payload),
-  };
-};
-
 export const signOutSuccess = payload => {
   return {
     type: types.SIGN_OUT_SUCCESS,
     payload,
+  };
+};
+
+export const updateProfileAction = (payload = {}) => {
+  return {
+    type: types.UPDATE_PROFILE,
+    payload: JSON.parse(payload),
   };
 };

@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
 import SignInScreen from '../screens/Auth/SignInScreen';
 import SignUpScreen from '../screens/Auth/SignUpScreen';
+import AuthWelcomeScreen from '../screens/Auth/AuthWelcomeScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,7 +22,10 @@ export const SignedInStack = () => {
 
 export const SignedOutStack = () => {
   <NavigationContainer>
-    <Stack.Navigator screenOptions={screenOptions}>
+    <Stack.Navigator
+      screenOptions={screenOptions}
+      initialRouteName="AuthWelcome">
+      <Stack.Screen name="AuthWelcome" component={AuthWelcomeScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
     </Stack.Navigator>
