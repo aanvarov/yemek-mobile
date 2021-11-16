@@ -1,6 +1,6 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
-import {SignedInStack, SignedOutStack} from './navigation';
+import { useSelector } from 'react-redux';
+import { SignedInStack, SignedOutStack } from './navigation';
 
 const AuthNavigation = () => {
   const currentUser = useSelector(state => state.auth);

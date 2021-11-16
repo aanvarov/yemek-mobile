@@ -1,11 +1,14 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import { View, Text } from 'react-native';
+import ScreenWrapper from '../../components/ScreenWrapper';
 
 const AuthWelcomeScreen = () => {
   return (
-    <View>
-      <Text>Welcome</Text>
-    </View>
+    <ScreenWrapper>
+      <View>
+        <Text>Auth</Text>
+      </View>
+    </ScreenWrapper>
   );
 };
 

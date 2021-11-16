@@ -15,6 +15,12 @@ export default (state = initialState, action) => {
         user: action.payload.user,
       };
     }
+    case types.UPDATE_PROFILE: {
+      return {
+        ...state,
+        user: { ...state.user, ...action.payload },
+      };
+    }
     case types.SIGN_OUT_SUCCESS: {
       return initialState;
     }
