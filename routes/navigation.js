@@ -1,11 +1,11 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import SignInScreen from '../screens/Auth/SignInScreen';
 import SignUpScreen from '../screens/Auth/SignUpScreen';
 import AuthWelcomeScreen from '../screens/Auth/AuthWelcomeScreen';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const screenOptions = {
   headerShown: false,
