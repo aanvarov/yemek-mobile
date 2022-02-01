@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import AuthNavigation from './routes/AuthNavigation';
+import AuthNavigation from './src/routes/AuthNavigation';
 
 const App = () => <AuthNavigation />;
 export default App;
