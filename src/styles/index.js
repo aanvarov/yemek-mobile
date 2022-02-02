@@ -27,12 +27,28 @@ S.Title = styled(Text)`
   font-family: 'Poppins';
   font-style: normal;
   font-weight: ${props => props.weight || 500};
-  font-size: ${props => props.size || '25px'};
-  line-height: ${props => props.lineHeight || '33px'};
+  font-size: ${props => props.size || '20px'};
+  line-height: ${props => props.lineHeight || '24px'};
+  letter-spacing: ${props => props.letterSpacing || '-0.24px'};
   color: ${props => props.color || COLORS.TEXT_COLOR};
   margin-bottom: ${props => props.mb || '0px'};
   margin-top: ${props => props.mt || '0px'};
   margin-left: ${props => props.ml || '0px'};
+  text-align: ${props => props.align || 'left'};
+`;
+
+S.SubTitle = styled(Text)`
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: ${props => props.weight || 400};
+  font-size: ${props => props.size || '16px'};
+  line-height: ${props => props.lineHeight || '28px'};
+  letter-spacing: ${props => props.letterSpacing || '-0.24px'};
+  color: ${props => props.color || COLORS.SUBTITLE_COLOR};
+  margin-bottom: ${props => props.mb || '0px'};
+  margin-top: ${props => props.mt || '0px'};
+  margin-left: ${props => props.ml || '0px'};
+  text-align: ${props => props.align || 'left'};
 `;
 
 S.Text = styled(Text)`
@@ -45,7 +61,9 @@ S.Text = styled(Text)`
   margin-bottom: ${props => props.mb || '0px'};
   margin-top: ${props => props.mt || '0px'};
   margin-left: ${props => props.ml || '0px'};
+  margin-right: ${props => props.mr || '0px'};
   letter-spacing: ${props => props.letterSpacing || '0px'};
+  text-align: ${props => props.align || 'left'};
 `;
 
 S.GreenButton = styled(TouchableOpacity)`
@@ -56,6 +74,18 @@ S.GreenButton = styled(TouchableOpacity)`
   justify-content: center;
   align-items: center;
   margin-top: ${props => props.mt || '0px'};
+  margin-bottom: ${props => props.mb || '0px'};
+`;
+
+S.GreenButtonText = styled(Text)`
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: ${props => props.weight || 500};
+  font-size: ${props => props.size || '15px'};
+  line-height: ${props => props.lineHeight || '20px'};
+  text-align: center;
+  color: ${props => props.color || COLORS.WHITE};
+  letter-spacing: ${props => props.letterSpacing || '-0.24px'};
 `;
 
 S.Pressable = styled(Pressable)`

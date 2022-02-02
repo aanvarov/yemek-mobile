@@ -17,7 +17,7 @@ const screenOptions = {
 
 export const SignedInStack = () => (
   <Stack.Navigator screenOptions={screenOptions}>
-    <Stack.Screen name="AuthWelcome" component={SplashScreen} />
+    <Stack.Screen name="AuthWelcome" component={SplashScreen} token={true} />
     <Stack.Screen name="Home" component={HomeScreen} />
   </Stack.Navigator>
 );

@@ -53,7 +53,9 @@ const OnBoarding = ({ navigation }) => {
             paddingHorizontal: 10,
           }}>
           <SvgCss xml={onBoardingData[index].image} />
-          <Styled.Title mt={'58px'}>{onBoardingData[index].title}</Styled.Title>
+          <Styled.Title lineHeight={'33px'} size={'25px'} mt={'58px'}>
+            {onBoardingData[index].title}
+          </Styled.Title>
           <Styled.Text>{onBoardingData[index].description}</Styled.Text>
           <View style={styles.sliderDots}>
             <Pressable onPress={() => setIndex(0)}>
@@ -84,13 +86,9 @@ const OnBoarding = ({ navigation }) => {
 
           <View style={styles.buttonsContainer}>
             <Styled.GreenButton width={'50%'} onPress={nextStepButton}>
-              <Styled.Text
-                color={COLORS.WHITE}
-                weight={500}
-                lineHeight={'20px'}
-                letterSpacing={'-0.24px'}>
+              <Styled.GreenButtonText>
                 {index === 2 ? 'Get Started' : 'Next'}
-              </Styled.Text>
+              </Styled.GreenButtonText>
             </Styled.GreenButton>
             <Styled.Pressable
               onPress={skipButton}
