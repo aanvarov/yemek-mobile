@@ -8,6 +8,8 @@ import AuthWelcomeScreen from '../screens/Auth/AuthWelcomeScreen';
 import SplashScreen from '../screens/SplashScreen';
 import OnBoarding from '../screens/OnBoarding';
 
+import BottomTabNavigation from './BottomNavigation';
+
 const Stack = createNativeStackNavigator();
 
 const screenOptions = {
@@ -18,7 +20,7 @@ const screenOptions = {
 export const SignedInStack = () => (
   <Stack.Navigator screenOptions={screenOptions}>
     <Stack.Screen name="AuthWelcome" component={SplashScreen} token={true} />
-    <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Screen name="BottomTabNavigation" component={BottomTabNavigation} />
   </Stack.Navigator>
 );
 

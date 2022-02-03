@@ -10,7 +10,9 @@ const SplashScreen = ({ navigation }) => {
   currentUser.token = true;
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate(currentUser.token ? 'Home' : 'OnBoarding');
+      navigation.navigate(
+        currentUser.token ? 'BottomTabNavigation' : 'OnBoarding',
+      );
     }, 3000);
     console.log('SplashScreen in 2 seconds');
   });
