@@ -68,9 +68,9 @@ S.Text = styled(Text)`
 
 S.GreenButton = styled(TouchableOpacity)`
   width: ${props => props.width || '100%'};
-  height: 52px;
+  height: ${props => props.height || '52px'};
   background-color: ${props => props.bgColor || COLORS.DARK_GREEN};
-  border-radius: 12px;
+  border-radius: ${props => props.borderRadius || '12px'};
   justify-content: center;
   align-items: center;
   margin-top: ${props => props.mt || '0px'};
