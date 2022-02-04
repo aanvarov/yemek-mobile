@@ -5,8 +5,24 @@ import InputWrapper from '../../components/InputWrapper';
 import { COLORS } from '../../constants';
 import { SvgCss } from 'react-native-svg';
 import SignInWithSocials from '../../components/SignInWithSocials';
+import { useDispatch } from 'react-redux';
+import { signInSuccess } from '../../store/Auth/actions';
 
 const SignInScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
+  const signInHandler = () => {
+    console.log('Sign in');
+    dispatch(
+      signInSuccess({
+        user: {
+          name: 'Abror Anvarov',
+          email: 'anvarov2295@gmail.com',
+        },
+        token: '123456789',
+      }),
+    );
+  };
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
@@ -20,7 +36,7 @@ const SignInScreen = ({ navigation }) => {
               textContentType="emailAddress"
               keyboardType="email-address"
               style={styles.input}
-              value="Kawsarui.ux@gmail.com"
+              value="anvrov2295@gmail.com"
             />
           </InputWrapper>
           <InputWrapper labelText={'Password'}>
@@ -29,10 +45,10 @@ const SignInScreen = ({ navigation }) => {
               secureTextEntry
               keyboardType="default"
               style={styles.input}
-              value="Kawsaruidfdfsf"
+              value="123456789"
             />
           </InputWrapper>
-          <Styled.GreenButton mt={'120px'} mb={'26px'}>
+          <Styled.GreenButton onPress={signInHandler} mt={'120px'} mb={'26px'}>
             <Styled.GreenButtonText>Login</Styled.GreenButtonText>
           </Styled.GreenButton>
           <View

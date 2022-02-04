@@ -1,12 +1,21 @@
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
+import Styled from '../styles';
 
-const ScreenHeader = () => {
+const ScreenHeader = props => {
   return (
-    <View>
-      <Text></Text>
+    <View style={styles.container}>
+      <Styled.Title align={'center'} lineHeight={'40px'}>
+        {props.title}
+      </Styled.Title>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 10,
+  },
+});
 
 export default ScreenHeader;

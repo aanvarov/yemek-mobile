@@ -24,7 +24,7 @@ const screenOptions = {
   tabBarStyle: {
     elevation: 2,
     backgroundColor: '#fff',
-    height: 85,
+    height: 80,
     paddingTop: 10,
     paddingHorizontal: 15,
     borderRadius: 20,

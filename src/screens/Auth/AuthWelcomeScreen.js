@@ -36,7 +36,10 @@ const AuthWelcomeScreen = ({ navigation }) => {
             }}>
             <Styled.GreenButtonText>Register</Styled.GreenButtonText>
           </Styled.GreenButton>
-          <Styled.GreenButton>
+          <Styled.GreenButton
+            onPress={() => {
+              navigation.navigate('SignIn');
+            }}>
             <Styled.GreenButtonText>Login</Styled.GreenButtonText>
           </Styled.GreenButton>
         </View>

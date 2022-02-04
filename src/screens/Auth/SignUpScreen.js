@@ -4,8 +4,25 @@ import Styled from '../../styles';
 import InputWrapper from '../../components/InputWrapper';
 import { COLORS } from '../../constants';
 import SignInWithSocials from '../../components/SignInWithSocials';
+import { useDispatch } from 'react-redux';
+import { signInSuccess } from '../../store/Auth/actions';
 
 const SignUpScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
+  const signUpHandler = () => {
+    console.log('Sing in');
+    dispatch(
+      signInSuccess({
+        user: {
+          name: 'Abror Anvarov',
+          email: 'anvarov2295@gmail.com',
+        },
+        token: '123456789',
+      }),
+    );
+  };
+
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
@@ -19,7 +36,7 @@ const SignUpScreen = ({ navigation }) => {
               textContentType="emailAddress"
               keyboardType="email-address"
               style={styles.input}
-              value="Kawsarui.ux@gmail.com"
+              value="anvarov2295@gmail.com"
             />
           </InputWrapper>
           <InputWrapper labelText={'Your Name'}>
@@ -27,7 +44,7 @@ const SignUpScreen = ({ navigation }) => {
               textContentType="name"
               keyboardType="default"
               style={styles.input}
-              value="Kawsarui.ux@gmail.com"
+              value="Abror Anvarov"
             />
           </InputWrapper>
           <InputWrapper labelText={'Password'}>
@@ -39,7 +56,7 @@ const SignUpScreen = ({ navigation }) => {
               value="Kawsaruidfdfsf"
             />
           </InputWrapper>
-          <Styled.GreenButton mb={'26px'}>
+          <Styled.GreenButton mb={'26px'} onPress={signUpHandler}>
             <Styled.GreenButtonText>Create Account</Styled.GreenButtonText>
           </Styled.GreenButton>
           <View

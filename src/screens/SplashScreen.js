@@ -7,7 +7,6 @@ import SplashLogo from '../assets/images/svg/SplashLogo';
 
 const SplashScreen = ({ navigation }) => {
   const currentUser = useSelector(state => state.auth);
-  currentUser.token = true;
   useEffect(() => {
     setTimeout(() => {
       navigation.navigate(
