@@ -1,5 +1,12 @@
-import React from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+} from 'react-native';
 import Styled from '../../styles';
 import InputWrapper from '../../components/InputWrapper';
 import { COLORS } from '../../constants';
@@ -7,36 +14,60 @@ import { SvgCss } from 'react-native-svg';
 import SignInWithSocials from '../../components/SignInWithSocials';
 import { useDispatch } from 'react-redux';
 import { signInSuccess } from '../../store/Auth/actions';
+import Axios from '../../utils/axios';
 
-const SignInScreen = ({ navigation }) => {
+const SignInScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
+  const [signInError, setSignInError] = useState('');
+
+  console.log('signInError', route?.params?.phone);
+  const [data, setData] = useState({
+    phone: route?.params?.phone || '',
+    password: '',
+  });
 
   const signInHandler = () => {
     console.log('Sign in');
-    dispatch(
-      signInSuccess({
-        user: {
-          name: 'Abror Anvarov',
-          email: 'anvarov2295@gmail.com',
-        },
-        token: '123456789',
-      }),
-    );
+    // dispatch(
+    //   signInSuccess({
+    //     user: {
+    //       name: 'Abror Anvarov',
+    //       email: 'anvarov2295@gmail.com',
+    //     },
+    //     accessToken: '123456789',
+    //   }),
+    // );
+    Axios.post('/api/v1/auth/sessions', data)
+      .then(res => {
+        console.log('res data', res);
+        dispatch(signInSuccess(res.data));
+      })
+      .catch(err => {
+        setSignInError(err.response.data.message);
+        console.log('login error', err.response.data.message);
+      });
   };
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
-        <View style={{ flex: 1, marginTop: 50 }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1, marginTop: 50 }}>
           <Styled.Title>Let’s Sign You In</Styled.Title>
-          <Styled.SubTitle mt={'22px'} mb={'48px'}>
-            Welcome Back, You’ve been missed!
+          <Styled.SubTitle
+            color={signInError ? 'red' : null}
+            mt={'22px'}
+            mb={'48px'}>
+            {signInError ? signInError : 'Welcome Back, You’ve been missed!'}
           </Styled.SubTitle>
-          <InputWrapper labelText={'Email'}>
+          <InputWrapper labelText={'Phone Number'}>
             <TextInput
-              textContentType="emailAddress"
-              keyboardType="email-address"
+              textContentType="telephoneNumber"
+              keyboardType="default"
               style={styles.input}
-              value="anvrov2295@gmail.com"
+              placeholder="+998991234567"
+              value={data.phone}
+              onChangeText={text => setData({ ...data, phone: text })}
             />
           </InputWrapper>
           <InputWrapper labelText={'Password'}>
@@ -45,7 +76,9 @@ const SignInScreen = ({ navigation }) => {
               secureTextEntry
               keyboardType="default"
               style={styles.input}
-              value="123456789"
+              value={data.password}
+              placeholder="********"
+              onChangeText={text => setData({ ...data, password: text })}
             />
           </InputWrapper>
           <Styled.GreenButton onPress={signInHandler} mt={'120px'} mb={'26px'}>
@@ -70,7 +103,7 @@ const SignInScreen = ({ navigation }) => {
             </Pressable>
           </View>
           <SignInWithSocials />
-        </View>
+        </ScrollView>
       </Styled.Container>
     </Styled.SafeAreaView>
   );

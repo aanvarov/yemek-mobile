@@ -1,7 +1,8 @@
 import * as types from './actionTypes';
 
 const initialState = {
-  token: null,
+  accessToken: null,
+  refreshToken: null,
   user: {
     lang: 'en',
   },
@@ -11,7 +12,8 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case types.SIGN_IN_SUCCESS: {
       return {
-        token: action.payload.token,
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
         user: action.payload.user,
       };
     }

@@ -4,28 +4,38 @@ import Styled from '../styles';
 import { COLORS } from '../constants';
 
 const CartItemCard = ({ item }) => {
+  // console.log('safasfafCartIrem', item);
+  const [counter, setCounter] = React.useState(item.counter);
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../assets/images/DrinksPopular.png')}
-        style={styles.image}
-      />
+      <Image source={{ uri: item.img }} style={styles.image} />
       <View style={styles.info}>
         <Styled.Text size={'18px'}>{item.name}</Styled.Text>
-        <Styled.SubTitle>{item.desc}</Styled.SubTitle>
+        <Styled.SubTitle>{item.description}</Styled.SubTitle>
         <View style={styles.counter}>
-          <Pressable>
+          <Pressable
+            onPress={() => {
+              if (counter > 1) {
+                setCounter(counter - 1);
+              }
+            }}>
             <View style={styles.minus}>
               <Text style={styles.minusText}>-</Text>
             </View>
           </Pressable>
-          <Text style={styles.counterText}>1</Text>
-          <View style={styles.plus}>
+          <Text style={styles.counterText}>{counter}</Text>
+          <Pressable
+            onPress={() => {
+              if (counter < 10) {
+                setCounter(counter + 1);
+              }
+            }}
+            style={styles.plus}>
             <Text style={styles.plusText}>+</Text>
-          </View>
+          </Pressable>
         </View>
         <Styled.Text style={styles.price} color={COLORS.DARK_GREEN}>
-          {item.price}
+          $ {item.price * counter}
         </Styled.Text>
       </View>
     </View>
@@ -46,14 +56,15 @@ const styles = StyleSheet.create({
     width: 62,
     height: 53,
     marginRight: 10,
+    borderRadius: 12,
   },
   info: {
     flex: 1,
   },
   price: {
     position: 'absolute',
+    top: 30,
     right: 0,
-    bottom: 0,
   },
   counter: {
     flexDirection: 'row',

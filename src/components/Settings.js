@@ -10,13 +10,21 @@ import setLangIcon from '../assets/images/svg/setLangIcon';
 import setFaqIcon from '../assets/images/svg/setFaqIcon';
 import { useDispatch } from 'react-redux';
 import { signOutSuccess } from '../store/Auth/actions';
+import Axios from '../utils/axios';
 
 const Settings = () => {
   const dispatch = useDispatch();
 
   const signOutHandler = () => {
     console.log('Sign out');
-    dispatch(signOutSuccess());
+    Axios.delete('/api/v1/auth/sessions')
+      .then(res => {
+        console.log('res data', JSON.stringify(res.data, null, 4));
+        dispatch(signOutSuccess());
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (

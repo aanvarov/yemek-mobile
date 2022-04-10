@@ -7,6 +7,8 @@ import SignUpScreen from '../screens/Auth/SignUpScreen';
 import AuthWelcomeScreen from '../screens/Auth/AuthWelcomeScreen';
 import SplashScreen from '../screens/SplashScreen';
 import OnBoarding from '../screens/OnBoarding';
+import FoodDetailsScreen from '../screens/FoodDetailsScreen';
+import MyCart from '../screens/MyCart';
 
 import BottomTabNavigation from './BottomNavigation';
 
@@ -21,6 +23,8 @@ export const SignedInStack = () => (
   <Stack.Navigator screenOptions={screenOptions}>
     <Stack.Screen name="AuthWelcome" component={SplashScreen} />
     <Stack.Screen name="BottomTabNavigation" component={BottomTabNavigation} />
+    <Stack.Screen name="FoodDetails" component={FoodDetailsScreen} />
+    <Stack.Screen name="MyCart" component={MyCart} />
   </Stack.Navigator>
 );
 

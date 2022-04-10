@@ -4,10 +4,13 @@ import Styled from '../styles';
 import { COLORS } from '../constants';
 
 const PopularItemCard = ({ item }) => {
+  console.log(item);
   return (
     <View style={styles.container}>
       <Image
-        source={require('../assets/images/DrinksPopular.png')}
+        source={{
+          uri: item.img,
+        }}
         style={styles.image}
       />
       <Styled.Text
@@ -18,9 +21,11 @@ const PopularItemCard = ({ item }) => {
         {item.name}
       </Styled.Text>
       <View style={styles.prices}>
-        <Text style={styles.priceText}>{item.price}</Text>
+        <Text style={styles.priceText}>{item.price}$</Text>
         <View style={styles.secondPriceWrapper}>
-          <Text style={styles.secondPrice}>{item.secondPrice}</Text>
+          <Text style={styles.secondPrice}>
+            {item.price - Math.floor((item.price / 100) * 10)}$
+          </Text>
         </View>
       </View>
     </View>
@@ -38,7 +43,10 @@ const styles = StyleSheet.create({
     minWidth: 155,
   },
   image: {
-    marginBottom: 4,
+    marginBottom: 10,
+    width: '100%',
+    height: 90,
+    borderRadius: 25,
   },
   prices: {
     flexDirection: 'row',

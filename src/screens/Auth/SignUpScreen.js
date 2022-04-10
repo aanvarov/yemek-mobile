@@ -1,50 +1,90 @@
-import React from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  ScrollView,
+  Text,
+  TextInput,
+  StyleSheet,
+  Pressable,
+} from 'react-native';
 import Styled from '../../styles';
 import InputWrapper from '../../components/InputWrapper';
 import { COLORS } from '../../constants';
 import SignInWithSocials from '../../components/SignInWithSocials';
 import { useDispatch } from 'react-redux';
 import { signInSuccess } from '../../store/Auth/actions';
+import Axios from '../../utils/axios';
+
+// dispatch(
+//   signInSuccess({
+//     user: {
+//       name: 'Abror Anvarov',
+//       email: 'anvarov2295@gmail.com',
+//     },
+//     accessToken: '123456789',
+//   }),
+// );
 
 const SignUpScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
+  const [data, setData] = useState({
+    phone: '998997703043',
+    firstName: 'Abror',
+    lastName: 'Anvarov',
+    password: '123456789',
+  });
+
   const signUpHandler = () => {
-    console.log('Sing in');
-    dispatch(
-      signInSuccess({
-        user: {
-          name: 'Abror Anvarov',
-          email: 'anvarov2295@gmail.com',
-        },
-        token: '123456789',
-      }),
-    );
+    // sign up handler with axios
+    Axios.post('/api/v1/auth/signup', data)
+      .then(res => {
+        // dispatch(signInSuccess(res.data));
+        // console.log('res data', { ...res });
+        if (res.status === 201) {
+          navigation.navigate('SignIn', { phone: res.data.phone });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
-        <View style={{ flex: 1, marginTop: 50 }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1, marginTop: 50 }}>
           <Styled.Title>Getting Started</Styled.Title>
-          <Styled.SubTitle mt={'22px'} mb={'48px'}>
+          <Styled.SubTitle mt={'22px'} mb={'38px'}>
             Create an account to continue!
           </Styled.SubTitle>
-          <InputWrapper labelText={'Your Email'}>
+          <InputWrapper labelText={'Your Phone'}>
             <TextInput
-              textContentType="emailAddress"
-              keyboardType="email-address"
+              textContentType="telephoneNumber"
+              keyboardType="number-pad"
               style={styles.input}
-              value="anvarov2295@gmail.com"
+              placeholder="+998991234567"
+              onChangeText={text => setData({ ...data, phone: text })}
             />
           </InputWrapper>
-          <InputWrapper labelText={'Your Name'}>
+          <InputWrapper labelText={'First Name'}>
             <TextInput
               textContentType="name"
               keyboardType="default"
               style={styles.input}
-              value="Abror Anvarov"
+              placeholder="Abror"
+              onChangeText={text => setData({ ...data, firstName: text })}
+            />
+          </InputWrapper>
+          <InputWrapper labelText={'Last Name'}>
+            <TextInput
+              textContentType="name"
+              keyboardType="default"
+              style={styles.input}
+              placeholder="Anvarov"
+              onChangeText={text => setData({ ...data, lastName: text })}
             />
           </InputWrapper>
           <InputWrapper labelText={'Password'}>
@@ -53,7 +93,8 @@ const SignUpScreen = ({ navigation }) => {
               secureTextEntry
               keyboardType="default"
               style={styles.input}
-              value="Kawsaruidfdfsf"
+              placeholder="********"
+              onChangeText={text => setData({ ...data, password: text })}
             />
           </InputWrapper>
           <Styled.GreenButton mb={'26px'} onPress={signUpHandler}>
@@ -78,7 +119,7 @@ const SignUpScreen = ({ navigation }) => {
             </Pressable>
           </View>
           <SignInWithSocials />
-        </View>
+        </ScrollView>
       </Styled.Container>
     </Styled.SafeAreaView>
   );

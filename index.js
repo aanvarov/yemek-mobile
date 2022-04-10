@@ -11,13 +11,16 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 function Root() {
   return (
     <Provider store={store}>
       <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
         <NavigationContainer>
-          <App />
+          <RootSiblingParent>
+            <App />
+          </RootSiblingParent>
         </NavigationContainer>
       </PersistGate>
     </Provider>

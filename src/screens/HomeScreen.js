@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Styled from '../styles';
 import { SvgCss } from 'react-native-svg';
@@ -8,8 +8,46 @@ import VictoryHandsIcon from '../assets/images/svg/victoryHandsIcon';
 import AddressIcon from '../assets/images/svg/addressIcon';
 import Categories from '../components/Categories';
 import PopularItems from '../components/PopularItems';
+import Axios from '../utils/axios';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
+  const [categories, setCategories] = useState([]);
+  const [popularItems, setPopularItems] = useState([]);
+  const [filteredFoods, setFilteredFoods] = useState([]);
+  const [category, setCategory] = useState({
+    name: 'All',
+    _id: '',
+  });
+  useEffect(() => {
+    if (category.name === 'All') {
+      setFilteredFoods(popularItems);
+    } else {
+      const filtered = popularItems.filter(item =>
+        item.category.includes(category._id),
+      );
+      setFilteredFoods(filtered);
+    }
+  }, [category, popularItems]);
+  useEffect(() => {
+    Axios.get('/api/v1/categories')
+      .then(res => {
+        console.log('res data categories', res.data);
+        setCategories(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [category]);
+  useEffect(() => {
+    Axios.get('/api/v1/foods')
+      .then(res => {
+        console.log('res data categories', res.data);
+        setPopularItems(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [category]);
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
@@ -43,12 +81,16 @@ const HomeScreen = () => {
           <View style={styles.addressText}>
             <Styled.Text lineHeight={'22px'}>Address</Styled.Text>
             <Styled.Text lineHeight={'22px'} color={COLORS.DARK_GREEN}>
-              Chouddagram 3500, Comilla
+              2 Abdulla Qahhor Street, Tashkent, Uzbekistan
             </Styled.Text>
           </View>
         </View>
-        <Categories />
-        <PopularItems />
+        <Categories
+          setCategory={setCategory}
+          category={category}
+          categories={categories}
+        />
+        <PopularItems navigation={navigation} popularItems={filteredFoods} />
       </Styled.Container>
     </Styled.SafeAreaView>
   );
@@ -113,7 +155,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   address: {
-    marginTop: 26,
+    marginTop: 16,
     marginBottom: 34,
     flexDirection: 'row',
     alignItems: 'center',

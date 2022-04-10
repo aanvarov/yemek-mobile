@@ -1,7 +1,8 @@
-export const BASE_URL =
+export const baseURL =
   process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000'
+    ? 'http://localhost:4001'
     : 'https://api.todo.com';
+// ? 'https://33f9-82-215-99-195.ngrok.io'
 
 export const COLORS = {
   WHITE: '#FFFFFF',

@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     paddingHorizontal: 29,
     justifyContent: 'center',
-    marginBottom: 34,
+    marginBottom: 24,
   },
   label: {
     position: 'absolute',

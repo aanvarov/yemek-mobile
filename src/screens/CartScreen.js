@@ -1,9 +1,10 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Styled from '../styles';
 import ScreenHeader from '../components/ScreenHeader';
 import CartItemCard from '../components/CartItemCard';
 import { COLORS } from '../constants';
+import Axios from '../utils/axios';
 
 const items2 = [
   {
@@ -41,6 +42,13 @@ const items = [
   },
 ];
 
+const checkHandler = () => {
+  Axios.get('/api/v1/foods').then(res => {
+    // console.log('checkout', res.data);
+    // console.log('checkHandler', res.headers['x-access-token']);
+  });
+};
+
 const CartScreen = () => {
   return (
     <Styled.SafeAreaView>
@@ -68,7 +76,7 @@ const CartScreen = () => {
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <Styled.GreenButton width={'55%'}>
+          <Styled.GreenButton onPress={checkHandler} width={'55%'}>
             <Styled.GreenButtonText>Checkout</Styled.GreenButtonText>
           </Styled.GreenButton>
           <View>

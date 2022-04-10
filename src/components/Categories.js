@@ -3,46 +3,65 @@ import React from 'react';
 import Styled from '../styles';
 import { COLORS } from '../constants';
 
-const categories = [
-  {
-    id: 1,
-    name: 'Fast Food',
-    icon: '../assets/images/fastFood.png',
-  },
-  {
-    id: 2,
-    name: 'Drinks',
-    icon: '../assets/images/drinks.png',
-  },
-  {
-    id: 3,
-    name: 'Snacks',
-    icon: '../assets/images/snacks.png',
-  },
-  {
-    id: 4,
-    name: 'Desserts',
-    icon: '../assets/images/drinks.png',
-  },
-];
+var kitob = 23 - 20;
 
-const Categories = () => {
+// const categories = [
+//   {
+//     id: 1,
+//     name: 'Fast Food',
+//     icon: '../assets/images/fastFood.png',
+//   },
+//   {
+//     id: 2,
+//     name: 'Drinks',
+//     icon: '../assets/images/drinks.png',
+//   },
+//   {
+//     id: 3,
+//     name: 'Snacks',
+//     icon: '../assets/images/snacks.png',
+//   },
+//   {
+//     id: 4,
+//     name: 'Desserts',
+//     icon: '../assets/images/drinks.png',
+//   },
+// ];
+
+const Categories = ({ categories, setCategory, category }) => {
   return (
     <View style={styles.container}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        fadingEdgeLength={50}>
         <Styled.GreenButton
           borderRadius={'7px'}
           width={'46px'}
           height={'38px'}
+          bgColor={category.name === 'All' ? null : '#F6F6F6'}
+          onPress={() => {
+            setCategory({ name: 'All', id: null });
+          }}
           style={styles.allButton}>
-          <Styled.GreenButtonText>All</Styled.GreenButtonText>
+          <Styled.GreenButtonText
+            color={category.name === 'All' ? null : '#979797'}>
+            All
+          </Styled.GreenButtonText>
         </Styled.GreenButton>
-        {categories.map(category => (
+        {categories.map(item => (
           <Styled.GreenButton
-            key={category.id}
+            key={item._id}
             borderRadius={'7px'}
             height={'38px'}
-            bgColor={'#F6F6F6'}
+            bgColor={category.name === item.name ? null : '#F6F6F6'}
+            onPress={() => {
+              console.log(item.name);
+              setCategory({
+                name: item.name,
+                _id: item._id,
+              });
+            }}
             style={styles.button}>
             <View style={styles.categoryIconWrapper}>
               <Image
@@ -50,8 +69,9 @@ const Categories = () => {
                 style={styles.categoryIcon}
               />
             </View>
-            <Styled.GreenButtonText color={'#979797'}>
-              {category.name}
+            <Styled.GreenButtonText
+              color={category.name === item.name ? null : '#979797'}>
+              {item.name}
             </Styled.GreenButtonText>
           </Styled.GreenButton>
         ))}
