@@ -11,17 +11,16 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case types.SIGN_IN_SUCCESS: {
-      return {
+      return Object.assign({}, state, {
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
         user: action.payload.user,
-      };
+      });
     }
     case types.UPDATE_PROFILE: {
-      return {
-        ...state,
-        user: { ...state.user, ...action.payload },
-      };
+      return Object.assign({}, state, {
+        user: action.payload,
+      });
     }
     case types.SIGN_OUT_SUCCESS: {
       return initialState;

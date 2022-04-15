@@ -1,7 +1,7 @@
 export const baseURL =
   process.env.NODE_ENV === 'development'
-    ? 'http://localhost:4001'
-    : 'https://api.todo.com';
+    ? 'https://yemek.alitechbot.uz'
+    : 'https://yemek.alitechbot.uz';
 // ? 'https://33f9-82-215-99-195.ngrok.io'
 
 export const COLORS = {

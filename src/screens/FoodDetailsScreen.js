@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Pressable,
   Image,
-  ToastAndroid,
+  Platform,
 } from 'react-native';
 import React, { useState } from 'react';
 import Styled from '../styles';
@@ -12,7 +12,7 @@ import ScreenHeader from '../components/ScreenHeader';
 import { COLORS } from '../constants';
 import Toast from 'react-native-root-toast';
 import { useDispatch } from 'react-redux';
-import { clearCart, addedToCart } from '../store/Cart/actions';
+import { clearCart, addedToCart, getTotalCount } from '../store/Cart/actions';
 
 const FoodDetailsScreen = ({ navigation, route }) => {
   // getting data from route
@@ -25,7 +25,7 @@ const FoodDetailsScreen = ({ navigation, route }) => {
     // <Styled.SafeAreaView>
     <Styled.Container>
       <View style={styles.header}>
-        <Pressable onPress={() => navigation.goBack()}>
+        <Pressable onPress={() => navigation.navigate('BottomTabNavigation')}>
           <Image
             style={styles.backIcon}
             source={require('../assets/images/Back.png')}
@@ -127,7 +127,7 @@ const FoodDetailsScreen = ({ navigation, route }) => {
           />
         </View>
         <View style={styles.restaurant}>
-          <Text style={styles.resName}>Kawsar Food</Text>
+          <Text style={styles.resName}>{food?.restaurant?.name}</Text>
           <Styled.SubTitle>1.6 Km from you</Styled.SubTitle>
         </View>
         <View style={styles.stars}>
@@ -153,7 +153,7 @@ const FoodDetailsScreen = ({ navigation, route }) => {
         <View style={styles.addToCartTotal}>
           <Text style={styles.addToCartText}>Total Price</Text>
           <Text style={styles.addToCartTotalText}>
-            $ {food.price * counter}
+            UZS {food.price * counter}
           </Text>
         </View>
         <Styled.GreenButton
@@ -167,7 +167,8 @@ const FoodDetailsScreen = ({ navigation, route }) => {
               hideOnPress: true,
               delay: 0,
             });
-            navigation.navigate('MyCart');
+            // navigation.navigate('MyCart');
+            dispatch(getTotalCount());
           }}
           width={'50%'}>
           <Styled.GreenButtonText>Add to Cart</Styled.GreenButtonText>
@@ -247,7 +248,7 @@ const styles = StyleSheet.create({
   },
   header: {
     // backgroundColor: '#dede23',
-    paddingTop: 64,
+    paddingTop: Platform.OS === 'android' ? 34 : 64,
     flexDirection: 'row',
     justifyContent: 'space-between',
     zIndex: 1,
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: '#F6F6F6',
-    paddingTop: 150,
+    paddingTop: Platform.OS === 'android' ? 100 : 150,
     paddingBottom: 27,
     borderBottomLeftRadius: 55,
     borderBottomRightRadius: 55,
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
     width: 118,
     borderRadius: 18,
     // position: 'absolute',
-    marginTop: 305,
+    marginTop: Platform.OS === 'android' ? 290 : 305,
     marginLeft: 'auto',
     marginRight: 'auto',
     zIndex: 1,

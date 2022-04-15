@@ -6,10 +6,7 @@ import { COLORS } from '../constants';
 const SearchPopularItemCard = ({ item }) => {
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../assets/images/DrinksPopular.png')}
-        style={styles.image}
-      />
+      <Image source={{ uri: item.img }} style={styles.image} />
       <View style={styles.info}>
         <Styled.Text
           mb={'5px'}
@@ -38,7 +35,10 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   image: {
-    // marginRight: 8,
+    width: 95,
+    height: 60,
+    marginRight: 10,
+    borderRadius: 12,
   },
   info: {
     marginLeft: 10,

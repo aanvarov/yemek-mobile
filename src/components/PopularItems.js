@@ -42,12 +42,15 @@ import { ScrollView } from 'react-native-gesture-handler';
 //   },
 // ];
 
-const PopularItems = ({ navigation, popularItems }) => {
+const PopularItems = ({ navigation, popularItems, setFakeCounter }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Styled.Title size={'18px'}>Popular Items</Styled.Title>
-        <Pressable>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('AllItems');
+          }}>
           <Styled.Text color={COLORS.DARK_GREEN}>See All</Styled.Text>
         </Pressable>
       </View>
@@ -58,7 +61,9 @@ const PopularItems = ({ navigation, popularItems }) => {
               popularItems.map(item => (
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate('FoodDetails', { food: item });
+                    navigation.navigate('FoodDetails', {
+                      food: item,
+                    });
                   }}
                   key={item._id}>
                   <PopularItemCard item={item} />

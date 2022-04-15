@@ -5,6 +5,7 @@ import ScreenHeader from '../components/ScreenHeader';
 import CartItemCard from '../components/CartItemCard';
 import { COLORS } from '../constants';
 import Axios from '../utils/axios';
+import store from '../store';
 
 const items2 = [
   {
@@ -42,56 +43,82 @@ const items = [
   },
 ];
 
-const checkHandler = () => {
-  Axios.get('/api/v1/foods').then(res => {
-    // console.log('checkout', res.data);
-    // console.log('checkHandler', res.headers['x-access-token']);
-  });
-};
+// const checkHandler = () => {
+//   Axios.get('/api/v1/foods').then(res => {
+//     // console.log('checkout', res.data);
+//     // console.log('checkHandler', res.headers['x-access-token']);
+//   });
+// };
+
+// getting orders from store
 
 const CartScreen = () => {
+  const storeOrders = store.getState().orders.orders;
+  const [orders, setOrders] = useState(storeOrders);
+  // update orders when orders in store changes
+  useEffect(() => {
+    store.subscribe(() => {
+      setOrders(store.getState().orders.orders);
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   let ordersFromStore = store.getState().orders.orders;
+  //   setOrders(ordersFromStore);
+  // }, [storeOrders]);
+  // console.log(orders);
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
-        <ScreenHeader title="Cart(12)" />
-        <View style={styles.scrollView}>
-          <Styled.Title size={'18px'}>Kawsar Food</Styled.Title>
-          <ScrollView>
-            {items.map(item => (
-              <CartItemCard key={item.id} item={item} />
+        <ScreenHeader title="Orders" />
+        {orders.length > 0 ? (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ marginBottom: 60 }}>
+            {orders.map(item => (
+              <View style={styles.orderContainer} key={item.orderId}>
+                <Styled.Title>Order Id: {item.orderId}</Styled.Title>
+                <Styled.SubTitle>
+                  Total number of foods: {item.totalCount}
+                </Styled.SubTitle>
+                <Styled.SubTitle>
+                  Total price: {item.subTotal + item.fee}
+                </Styled.SubTitle>
+                <Styled.SubTitle>
+                  Payment Type: {item.paymentType}
+                </Styled.SubTitle>
+                <Styled.Text>Foods:</Styled.Text>
+                <View style={{ flexDirection: 'row' }}>
+                  {item.foods.map(food => (
+                    <View style={{ flexDirection: 'column' }} key={food._id}>
+                      <Text>Name: {food.name}</Text>
+                      <Text>Price: {food.price}</Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
             ))}
           </ScrollView>
-        </View>
-        <View style={styles.scrollView}>
-          <Styled.Title size={'18px'}>Mahbuba Food</Styled.Title>
-          <ScrollView>
-            {items2.map(item => (
-              <CartItemCard key={item.id} item={item} />
-            ))}
-          </ScrollView>
-        </View>
-        <View
-          style={{
-            marginTop: 19,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <Styled.GreenButton onPress={checkHandler} width={'55%'}>
-            <Styled.GreenButtonText>Checkout</Styled.GreenButtonText>
-          </Styled.GreenButton>
-          <View>
-            <Styled.Text size={'15px'}>Total Price</Styled.Text>
-            <Styled.Text color={COLORS.DARK_GREEN} size={'15px'}>
-              $120
-            </Styled.Text>
+        ) : (
+          <View style={styles.emptyCart}>
+            <Text style={styles.emptyCartText}>Your orders is empty</Text>
           </View>
-        </View>
+        )}
       </Styled.Container>
     </Styled.SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  orderContainer: {
+    marginTop: 10,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: COLORS.DARK_GREEN,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#fff',
+  },
   scrollView: {
     marginTop: 33,
   },

@@ -9,8 +9,11 @@ import SplashScreen from '../screens/SplashScreen';
 import OnBoarding from '../screens/OnBoarding';
 import FoodDetailsScreen from '../screens/FoodDetailsScreen';
 import MyCart from '../screens/MyCart';
+import CheckoutScreen from '../screens/CheckoutScreen';
+import CompleteScreen from '../screens/CompleteScreen';
 
 import BottomTabNavigation from './BottomNavigation';
+import AllItem from '../screens/AllItems';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +28,9 @@ export const SignedInStack = () => (
     <Stack.Screen name="BottomTabNavigation" component={BottomTabNavigation} />
     <Stack.Screen name="FoodDetails" component={FoodDetailsScreen} />
     <Stack.Screen name="MyCart" component={MyCart} />
+    <Stack.Screen name="AllItems" component={AllItem} />
+    <Stack.Screen name="Checkout" component={CheckoutScreen} />
+    <Stack.Screen name="Complete" component={CompleteScreen} />
   </Stack.Navigator>
 );
 

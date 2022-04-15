@@ -24,7 +24,7 @@ const AccountProfileCard = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 28,
+    marginTop: 18,
     height: 93,
     borderRadius: 12,
     backgroundColor: '#F6F6F6',

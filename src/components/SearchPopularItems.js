@@ -1,4 +1,11 @@
-import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import Styled from '../styles';
 import { COLORS } from '../constants';
@@ -25,22 +32,43 @@ const items = [
   },
 ];
 
-const SearchPopularItems = () => {
+const SearchPopularItems = ({ navigation, searched }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Styled.Title size={'18px'}>Popular Items</Styled.Title>
-        <Pressable>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('AllItems');
+          }}>
           <Styled.Text color={COLORS.DARK_GREEN}>See All</Styled.Text>
         </Pressable>
       </View>
       <View style={styles.items}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.scrollView}>
-            {items.map(item => (
+          {searched.length > 0 ? (
+            <View style={styles.scrollView}>
+              {searched.map(item => (
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('FoodDetails', {
+                      food: item,
+                    });
+                  }}
+                  key={item._id}>
+                  <SearchPopularItemCard key={item._id} item={item} />
+                </TouchableOpacity>
+              ))}
+            </View>
+          ) : (
+            <View style={styles.noItems}>
+              <Text style={styles.noItemsText}>No items found</Text>
+            </View>
+          )}
+
+          {/* {items.map(item => (
               <SearchPopularItemCard key={item.id} item={item} />
-            ))}
-          </View>
+            ))} */}
         </ScrollView>
       </View>
     </View>

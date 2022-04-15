@@ -37,7 +37,7 @@ axios.interceptors.response.use(
     // if (error.message === 'Network Error' || error.code === 'ECONNABORTED') {
     //   return Promise.reject(error);
     // }
-    // if (error.response.status === 401) {
+    // if (error) {
     //   return store.dispatch({ type: SIGN_OUT_SUCCESS });
     // }
     return Promise.reject(error);

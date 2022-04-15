@@ -5,18 +5,23 @@ import { useSelector } from 'react-redux';
 
 import SplashLogo from '../assets/images/svg/SplashLogo';
 
-const SplashScreen = ({ navigation }) => {
+const SplashScreen = ({ navigation, route }) => {
   const currentUser = useSelector(state => state.auth);
+  // console.log(route.name);
   useEffect(() => {
     setTimeout(() => {
+      // if (route.name === 'AuthWelcome') {
       if (currentUser.accessToken) {
         navigation.navigate('BottomTabNavigation');
       } else {
         navigation.navigate('OnBoarding');
       }
+      // } else {
+      //   console.log('route.name', route.name);
+      // }
     }, 3000);
     console.log('SplashScreen in 2 seconds');
-  });
+  }, [currentUser.accessToken, navigation, route.name]);
 
   return (
     <View style={{ flex: 1 }}>

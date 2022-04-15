@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView, Platform } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -24,7 +24,7 @@ const screenOptions = {
   tabBarStyle: {
     elevation: 2,
     backgroundColor: '#fff',
-    height: 80,
+    height: Platform.OS === 'android' ? 60 : 80,
     paddingTop: 10,
     paddingHorizontal: 15,
     borderRadius: 20,
@@ -85,10 +85,10 @@ const BottomTabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Cart"
+        name="Orders"
         component={CartScreen}
         options={{
-          tabBarLabel: 'Cart',
+          tabBarLabel: 'Orders',
           tabBarIcon: ({ color, size }) => <CartIconTab color={color} />,
         }}
       />

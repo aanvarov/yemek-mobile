@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import Styled from '../styles';
 import { COLORS } from '../constants';
@@ -21,10 +21,10 @@ const PopularItemCard = ({ item }) => {
         {item.name}
       </Styled.Text>
       <View style={styles.prices}>
-        <Text style={styles.priceText}>{item.price}$</Text>
+        <Text style={styles.priceText}>{item.price}UZS</Text>
         <View style={styles.secondPriceWrapper}>
           <Text style={styles.secondPrice}>
-            {item.price - Math.floor((item.price / 100) * 10)}$
+            {item.price - Math.floor((item.price / 100) * 10)}UZS
           </Text>
         </View>
       </View>
@@ -34,13 +34,13 @@ const PopularItemCard = ({ item }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 13,
+    paddingHorizontal: 8,
     paddingVertical: 11,
     backgroundColor: '#F6F6F6',
     borderRadius: 25,
     marginBottom: 17,
     alignItems: 'center',
-    minWidth: 155,
+    minWidth: 150,
   },
   image: {
     marginBottom: 10,
@@ -58,23 +58,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: COLORS.DARK_GREEN,
-    width: 49,
+    width: 70,
     height: 22,
     borderRadius: 8,
-    marginLeft: 15,
+    marginLeft: 12,
   },
   priceText: {
     fontFamily: 'Poppins',
     fontWeight: '500',
     fontStyle: 'normal',
-    fontSize: 15,
+    fontSize: 13,
     lineHeight: 19,
     color: '#979797',
   },
   secondPrice: {
     fontFamily: 'Poppins',
     fontStyle: 'normal',
-    fontSize: 15,
+    fontSize: 13,
     lineHeight: 22,
     color: COLORS.WHITE,
     fontWeight: '500',

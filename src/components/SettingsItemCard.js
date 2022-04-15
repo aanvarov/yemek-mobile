@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
     position: 'relative',
-    marginBottom: 15,
+    marginBottom: 12,
   },
   icon: {
     marginRight: 18,

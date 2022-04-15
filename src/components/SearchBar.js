@@ -1,8 +1,28 @@
 import { View, Text, StyleSheet, Image, TextInput } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Styled from '../styles';
+import Toast from 'react-native-root-toast';
 
-const SearchBar = () => {
+const SearchBar = ({ searched, setSearched, popularItems }) => {
+  const [search, setSearch] = useState('');
+  const searchHandler = () => {
+    if (search === '') {
+      Toast.show('Please enter food name', {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.TOP,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+      });
+    } else {
+      //search foods from popularItems
+      const searchedFoods = popularItems.filter(food =>
+        food.name.toLowerCase().includes(search.toLowerCase()),
+      );
+      setSearched(searchedFoods);
+    }
+  };
   return (
     <View style={styles.container}>
       <Image
@@ -12,14 +32,17 @@ const SearchBar = () => {
       <TextInput
         placeholder="Search Food Name"
         placeholderTextColor="#979797"
+        value={search}
+        onChangeText={text => setSearch(text)}
         style={styles.input}
       />
       <Styled.GreenButton
-        width={'90px'}
+        width={'85px'}
         height={'41px'}
+        onPress={searchHandler}
         style={styles.filterButton}>
-        <Styled.GreenButtonText>Filter</Styled.GreenButtonText>
-        <Image source={require('../assets/images/svg/filterButtonIcon.png')} />
+        <Styled.GreenButtonText>Search</Styled.GreenButtonText>
+        {/* <Image source={require('../assets/images/svg/filterButtonIcon.png')} /> */}
       </Styled.GreenButton>
     </View>
   );

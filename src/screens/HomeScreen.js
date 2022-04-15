@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import Styled from '../styles';
 import { SvgCss } from 'react-native-svg';
 import NotificationIcon from '../assets/images/svg/notificationIcon';
@@ -9,15 +9,29 @@ import AddressIcon from '../assets/images/svg/addressIcon';
 import Categories from '../components/Categories';
 import PopularItems from '../components/PopularItems';
 import Axios from '../utils/axios';
+import { useDispatch } from 'react-redux';
+import store from '../store';
 
 const HomeScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
   const [popularItems, setPopularItems] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
+  const [fakeCounter, setFakeCounter] = useState(0);
+  // calculate all counts of foods in cart from store
+  const cartFoods = store.getState().cart.foods;
+  const [foods, setFoods] = useState(cartFoods);
+  useEffect(() => {
+    store.subscribe(() => {
+      setFoods(store.getState().cart.foods);
+    });
+  }, []);
+
   const [category, setCategory] = useState({
     name: 'All',
     _id: '',
   });
+
   useEffect(() => {
     if (category.name === 'All') {
       setFilteredFoods(popularItems);
@@ -48,20 +62,38 @@ const HomeScreen = ({ navigation }) => {
         console.log(err);
       });
   }, [category]);
+
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
         <View style={styles.header}>
-          <View style={styles.lineWrapper}>
+          {/* <View style={styles.lineWrapper}>
             <View style={styles.line} />
             <View style={styles.line} />
+          </View> */}
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image
+              style={{ width: 30, height: 45 }}
+              source={require('../assets/images/logo.png')}
+            />
+            <Styled.Title mt={'9px'} ml={'10px'} size={'18px'}>
+              Y E M E K
+            </Styled.Title>
           </View>
-          <View style={styles.notificationWrapper}>
-            <SvgCss xml={NotificationIcon} />
+          <Pressable
+            onPress={() => navigation.navigate('MyCart')}
+            style={styles.notificationWrapper}>
+            {/* <SvgCss xml={NotificationIcon} /> */}
+            <Image
+              style={{ width: 35, height: 35 }}
+              source={require('../assets/images/shopping_cart.jpeg')}
+            />
             <View style={styles.notificationNumberWrapper}>
-              <Text style={styles.notificationNumber}>2</Text>
+              <Text style={styles.notificationNumber}>
+                {foods.reduce((acc, food) => acc + food.counter, 0)}
+              </Text>
             </View>
-          </View>
+          </Pressable>
         </View>
         <View style={styles.titleWrapper}>
           <Styled.Title
@@ -78,7 +110,7 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.addressIconWrapper}>
             <SvgCss xml={AddressIcon} />
           </View>
-          <View style={styles.addressText}>
+          <View style={{ width: 270 }}>
             <Styled.Text lineHeight={'22px'}>Address</Styled.Text>
             <Styled.Text lineHeight={'22px'} color={COLORS.DARK_GREEN}>
               2 Abdulla Qahhor Street, Tashkent, Uzbekistan
@@ -127,12 +159,12 @@ const styles = StyleSheet.create({
   },
   notificationNumberWrapper: {
     position: 'absolute',
-    width: 15,
-    height: 15,
+    width: 20,
+    height: 20,
     backgroundColor: COLORS.DARK_GREEN,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 7,
+    borderRadius: 10,
     borderColor: COLORS.WHITE,
     borderWidth: 1,
     borderStyle: 'solid',
@@ -143,8 +175,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins',
     fontWeight: '500',
     fontStyle: 'normal',
-    fontSize: 8,
-    lineHeight: 13,
+    fontSize: 12,
+    lineHeight: 15,
     color: COLORS.WHITE,
   },
   titleWrapper: {
