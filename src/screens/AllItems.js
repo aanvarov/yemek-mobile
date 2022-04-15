@@ -53,6 +53,7 @@ const AllItem = ({ navigation }) => {
             {foods.length &&
               foods.map((item, index) => (
                 <TouchableOpacity
+                  key={index}
                   onPress={() => {
                     navigation.navigate('FoodDetails', {
                       food: item,
