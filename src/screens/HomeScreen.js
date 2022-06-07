@@ -11,10 +11,12 @@ import PopularItems from '../components/PopularItems';
 import Axios from '../utils/axios';
 import { useDispatch } from 'react-redux';
 import store from '../store';
+import RestaurantsList from '../components/RestaurantsList';
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
   const [popularItems, setPopularItems] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [fakeCounter, setFakeCounter] = useState(0);
@@ -27,41 +29,58 @@ const HomeScreen = ({ navigation }) => {
     });
   }, []);
 
-  const [category, setCategory] = useState({
-    name: 'All',
-    _id: '',
-  });
+  const [category, setCategory] = useState('All');
+  const [restaurant, setRestaurant] = useState({});
 
   useEffect(() => {
-    if (category.name === 'All') {
+    Axios.get('/api/v1/restaurants/mobile')
+      .then(res => {
+        console.log('res data restaurants errr', res.data);
+        setRestaurants(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log('resssss mobile id', restaurant?._id);
+    if (restaurant?._id) {
+      Axios.get(`/api/v1/categories/mobile/${restaurant?._id}`)
+        .then(res => {
+          console.log('res data categories errr', res.data);
+          setCategories(res.data);
+          setCategory('All');
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }, [restaurant]);
+
+  useEffect(() => {
+    if (restaurant?._id) {
+      Axios.get(`/api/v1/foods/mobile/${restaurant?._id}`)
+        .then(res => {
+          console.log('res data foods', res.data);
+          setPopularItems(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }, [category, restaurant]);
+
+  useEffect(() => {
+    if (category === 'All') {
       setFilteredFoods(popularItems);
     } else {
-      const filtered = popularItems.filter(item =>
-        item.category.includes(category._id),
+      const filtered = popularItems.filter(
+        item => item.category[0].name === category,
       );
       setFilteredFoods(filtered);
     }
   }, [category, popularItems]);
-  useEffect(() => {
-    Axios.get('/api/v1/categories')
-      .then(res => {
-        console.log('res data categories', res.data);
-        setCategories(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [category]);
-  useEffect(() => {
-    Axios.get('/api/v1/foods')
-      .then(res => {
-        console.log('res data categories', res.data);
-        setPopularItems(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [category]);
 
   return (
     <Styled.SafeAreaView>
@@ -98,7 +117,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.titleWrapper}>
           <Styled.Title
             mt={'18px'}
-            style={{ width: 180 }}
+            style={{ width: '100%' }}
             size={'25px'}
             lineHeight={'40px'}>
             Fast and Delicious{' '}
@@ -117,6 +136,12 @@ const HomeScreen = ({ navigation }) => {
             </Styled.Text>
           </View>
         </View>
+
+        <RestaurantsList
+          setRestaurant={setRestaurant}
+          restaurant={restaurant}
+          restaurants={restaurants}
+        />
         <Categories
           setCategory={setCategory}
           category={category}
@@ -183,12 +208,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   victoryIcon: {
-    marginTop: 66,
-    marginLeft: 8,
+    marginTop: 25,
+    marginLeft: -30,
   },
   address: {
     marginTop: 16,
-    marginBottom: 34,
+    marginBottom: 25,
     flexDirection: 'row',
     alignItems: 'center',
   },

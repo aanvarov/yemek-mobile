@@ -3,8 +3,6 @@ import React from 'react';
 import Styled from '../styles';
 import { COLORS } from '../constants';
 
-var kitob = 23 - 20;
-
 // const categories = [
 //   {
 //     id: 1,
@@ -30,60 +28,60 @@ var kitob = 23 - 20;
 
 const Categories = ({ categories, setCategory, category }) => {
   return (
-    <View style={styles.container}>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        fadingEdgeLength={50}>
-        <Styled.GreenButton
-          borderRadius={'7px'}
-          width={'46px'}
-          height={'38px'}
-          bgColor={category.name === 'All' ? null : '#F6F6F6'}
-          onPress={() => {
-            setCategory({ name: 'All', id: null });
-          }}
-          style={styles.allButton}>
-          <Styled.GreenButtonText
-            color={category.name === 'All' ? null : '#979797'}>
-            All
-          </Styled.GreenButtonText>
-        </Styled.GreenButton>
-        {categories.map(item => (
+    <>
+      <Styled.SubTitle>Categories</Styled.SubTitle>
+      <View style={styles.container}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          fadingEdgeLength={50}>
           <Styled.GreenButton
-            key={item._id}
             borderRadius={'7px'}
+            width={'46px'}
             height={'38px'}
-            bgColor={category.name === item.name ? null : '#F6F6F6'}
+            bgColor={category === 'All' ? null : '#F6F6F6'}
             onPress={() => {
-              console.log(item.name);
-              setCategory({
-                name: item.name,
-                _id: item._id,
-              });
+              setCategory('All');
             }}
-            style={styles.button}>
-            <View style={styles.categoryIconWrapper}>
-              <Image
-                source={require('../assets/images/fastFood.png')}
-                style={styles.categoryIcon}
-              />
-            </View>
+            style={styles.allButton}>
             <Styled.GreenButtonText
-              color={category.name === item.name ? null : '#979797'}>
-              {item.name}
+              color={category === 'All' ? null : '#979797'}>
+              All
             </Styled.GreenButtonText>
           </Styled.GreenButton>
-        ))}
-      </ScrollView>
-    </View>
+          {categories.map(item => (
+            <Styled.GreenButton
+              key={item._id}
+              borderRadius={'7px'}
+              height={'38px'}
+              bgColor={category === item.name ? null : '#F6F6F6'}
+              onPress={() => {
+                console.log(item.name);
+                setCategory(item.name);
+              }}
+              style={styles.button}>
+              <View style={styles.categoryIconWrapper}>
+                <Image
+                  source={require('../assets/images/fastFood.png')}
+                  style={styles.categoryIcon}
+                />
+              </View>
+              <Styled.GreenButtonText
+                color={category === item.name ? null : '#979797'}>
+                {item.name}
+              </Styled.GreenButtonText>
+            </Styled.GreenButton>
+          ))}
+        </ScrollView>
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     height: 38,
-    marginBottom: 33,
+    marginBottom: 20,
   },
   allButton: {
     paddingHorizontal: 14,

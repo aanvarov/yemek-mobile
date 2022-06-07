@@ -6,21 +6,38 @@ import {
   Image,
   Platform,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styled from '../styles';
 import ScreenHeader from '../components/ScreenHeader';
 import { COLORS } from '../constants';
 import Toast from 'react-native-root-toast';
 import { useDispatch } from 'react-redux';
 import { clearCart, addedToCart, getTotalCount } from '../store/Cart/actions';
+import store from '../store';
 
 const FoodDetailsScreen = ({ navigation, route }) => {
   // getting data from route
   const food = route?.params?.food;
   // console.log('food', food);
+
   const dispatch = useDispatch();
   const [counter, setCounter] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isSameRes, setIsSameRes] = useState(true);
+
+  const checkingFoodsRestaurant = () => {
+    const cartFoods = store.getState().cart.foods;
+    cartFoods.forEach(food => {
+      if (food.restaurantId === food.restaurantId) {
+        setIsSameRes(false);
+      }
+    });
+  };
+
+  useEffect(() => {
+    checkingFoodsRestaurant();
+  }, []);
+
   return (
     // <Styled.SafeAreaView>
     <Styled.Container>
@@ -158,17 +175,31 @@ const FoodDetailsScreen = ({ navigation, route }) => {
         </View>
         <Styled.GreenButton
           onPress={() => {
-            dispatch(addedToCart({ ...food, counter }));
-            Toast.show('Added to cart', {
-              duration: Toast.durations.SHORT,
-              position: Toast.positions.TOP,
-              shadow: true,
-              animation: true,
-              hideOnPress: true,
-              delay: 0,
-            });
-            // navigation.navigate('MyCart');
-            dispatch(getTotalCount());
+            if (isSameRes) {
+              dispatch(addedToCart({ ...food, counter }));
+              Toast.show('Added to cart', {
+                duration: Toast.durations.SHORT,
+                position: Toast.positions.TOP,
+                shadow: true,
+                animation: true,
+                hideOnPress: true,
+                delay: 0,
+              });
+              // navigation.navigate('MyCart');
+              dispatch(getTotalCount());
+            } else {
+              Toast.show(
+                'Please add foods from same restaurant or first clear cart',
+                {
+                  duration: Toast.durations.SHORT,
+                  position: Toast.positions.BOTTOM,
+                  shadow: true,
+                  animation: true,
+                  hideOnPress: true,
+                  delay: 0,
+                },
+              );
+            }
           }}
           width={'50%'}>
           <Styled.GreenButtonText>Add to Cart</Styled.GreenButtonText>

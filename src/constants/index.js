@@ -1,6 +1,6 @@
 export const baseURL =
   process.env.NODE_ENV === 'development'
-    ? 'https://yemek.alitechbot.uz'
+    ? 'http://localhost:3001'
     : 'https://yemek.alitechbot.uz';
 // ? 'https://33f9-82-215-99-195.ngrok.io'
 

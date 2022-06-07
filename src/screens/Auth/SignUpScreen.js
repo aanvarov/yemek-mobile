@@ -29,10 +29,10 @@ const SignUpScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const [data, setData] = useState({
-    phone: '998997703043',
-    firstName: 'Abror',
-    lastName: 'Anvarov',
-    password: '123456789',
+    phone: '',
+    firstName: '',
+    lastName: '',
+    password: '',
   });
 
   const signUpHandler = () => {
@@ -65,7 +65,7 @@ const SignUpScreen = ({ navigation }) => {
               textContentType="telephoneNumber"
               keyboardType="number-pad"
               style={styles.input}
-              placeholder="+998991234567"
+              placeholder="998991234567"
               onChangeText={text => setData({ ...data, phone: text })}
             />
           </InputWrapper>

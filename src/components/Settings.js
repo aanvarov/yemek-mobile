@@ -17,6 +17,7 @@ const Settings = () => {
 
   const signOutHandler = () => {
     console.log('Sign out');
+    dispatch(signOutSuccess());
     Axios.delete('/api/v1/auth/sessions')
       .then(res => {
         console.log('res data', JSON.stringify(res.data, null, 4));

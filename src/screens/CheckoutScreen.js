@@ -15,8 +15,10 @@ import AddressIcon from '../assets/images/svg/addressIcon';
 import { COLORS } from '../constants';
 import { useDispatch } from 'react-redux';
 import { saveOrder } from '../store/Order/actions';
+import { io } from 'socket.io-client'
 
 const CheckoutScreen = ({ navigation }) => {
+  const socket = io('http://localhost:3001');
   const dispatch = useDispatch();
   // getting user name from store
   const firstName = store.getState().auth?.user?.firstName;
@@ -134,24 +136,24 @@ const CheckoutScreen = ({ navigation }) => {
             </TouchableOpacity>
             <Styled.GreenButton
               onPress={() => {
-                navigation.navigate('Complete');
+                // navigation.navigate('Complete');
                 // save order details to store
                 // create random order id
-                const orderId = Math.floor(Math.random() * 1000000);
-                dispatch(
-                  saveOrder({
-                    orderId,
-                    foods,
-                    paymentType,
-                    subTotal,
-                    totalCount: cartFoodsCount,
-                    fee: 5000,
-                  }),
-                );
+                // const orderId = Math.floor(Math.random() * 1000000);
+                // dispatch(
+                //   saveOrder({
+                //     orderId,
+                //     foods,
+                //     paymentType,
+                //     subTotal,
+                //     totalCount: cartFoodsCount,
+                //     fee: 5000,
+                //   }),
+                // );
                 // clear cart
-                store.dispatch({
-                  type: 'CLEAR_CART',
-                });
+                // store.dispatch({
+                //   type: 'CLEAR_CART',
+                // });
                 // store.dispatch({
                 //   type: 'SAVE_ORDER',
                 //   payload: {
@@ -162,6 +164,15 @@ const CheckoutScreen = ({ navigation }) => {
                 //     paymentType,
                 //   },
                 // });
+                socket.emit("otsimon", 'salom otcha donkacha');
+                socket.on("connect", () => {
+                  console.log(socket.id);
+                });
+                socket.on("connect_error", (err) => {
+                  console.log(err instanceof Error);
+                  console.log(err.message);
+                });
+                console.log('salom');
               }}>
               <Styled.Text color={COLORS.WHITE}>Order Now</Styled.Text>
             </Styled.GreenButton>
