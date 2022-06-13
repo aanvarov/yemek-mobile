@@ -38,12 +38,14 @@ const Settings = () => {
         <SettingsItemCard icon={setNotificationIcon} title={'Notification'} />
         <SettingsItemCard icon={setTrackingIcon} title={'Tracking Order'} />
         <SettingsItemCard icon={setStatusIcon} title={'Order Status'} />
-        <SettingsItemCard icon={setLangIcon} title={'Language'} />
-        <SettingsItemCard icon={setFaqIcon} title={'FAQs'} />
+        {/* <SettingsItemCard icon={setLangIcon} title={'Language'} /> */}
+        {/* <SettingsItemCard icon={setFaqIcon} title={'FAQs'} /> */}
+      </ScrollView>
+      <View>
         <Styled.GreenButton onPress={signOutHandler}>
           <Styled.GreenButtonText>Logout</Styled.GreenButtonText>
         </Styled.GreenButton>
-      </ScrollView>
+      </View>
     </View>
   );
 };

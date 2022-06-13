@@ -1,12 +1,32 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Linking,
+} from 'react-native';
 import React from 'react';
 import { SvgCss } from 'react-native-svg';
 import Styled from '../styles';
 import arrowRightSecondIcon from '../assets/images/svg/arrowRightSecondIcon';
 
 const SettingsItemCard = ({ icon, title }) => {
+  const openURL = url => {
+    Linking.canOpenURL(url).then(supported => {
+      if (!supported) {
+        console.log("Can't handle url: " + url);
+      } else {
+        return Linking.openURL(url);
+      }
+    });
+  };
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => {
+        openURL(
+          'https://my.click.uz/services/pay/?service_id=15892&merchant_id=11435&amount=1000',
+        );
+      }}>
       <View style={styles.container}>
         <SvgCss xml={icon} style={styles.icon} />
         <Styled.SubTitle style={styles.title}>{title}</Styled.SubTitle>

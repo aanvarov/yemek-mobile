@@ -5,6 +5,9 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  PermissionsAndroid,
+  Platform,
+  Button,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import Styled from '../styles';
@@ -15,9 +18,108 @@ import AddressIcon from '../assets/images/svg/addressIcon';
 import { COLORS } from '../constants';
 import { useDispatch } from 'react-redux';
 import { saveOrder } from '../store/Order/actions';
-import { io } from 'socket.io-client'
+import { io } from 'socket.io-client';
+import Axios from '../utils/axios';
+import Geolocation from '@react-native-community/geolocation';
 
 const CheckoutScreen = ({ navigation }) => {
+  const deliveryFee = 5000;
+  const [currentLongitude, setCurrentLongitude] = useState('...');
+  const [currentLatitude, setCurrentLatitude] = useState('...');
+  const [locationStatus, setLocationStatus] = useState('');
+
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      if (Platform.OS === 'ios') {
+        getOneTimeLocation();
+        subscribeLocationLocation();
+      } else {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: 'Location Access Required',
+              message: 'This App needs to Access your location',
+            },
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            //To Check, If Permission is granted
+            getOneTimeLocation();
+            subscribeLocationLocation();
+          } else {
+            setLocationStatus('Permission Denied');
+          }
+        } catch (err) {
+          console.warn(err);
+        }
+      }
+    };
+    requestLocationPermission();
+    return () => {
+      Geolocation.clearWatch(watchID);
+    };
+  }, []);
+
+  const getOneTimeLocation = () => {
+    setLocationStatus('Getting Location ...');
+    Geolocation.getCurrentPosition(
+      //Will give you the current location
+      position => {
+        setLocationStatus('You are Here');
+
+        //getting the Longitude from the location json
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+
+        //getting the Latitude from the location json
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+
+        //Setting Longitude state
+        setCurrentLongitude(currentLongitude);
+
+        //Setting Longitude state
+        setCurrentLatitude(currentLatitude);
+      },
+      error => {
+        setLocationStatus(error.message);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 30000,
+        maximumAge: 1000,
+      },
+    );
+  };
+
+  const subscribeLocationLocation = () => {
+    watchID = Geolocation.watchPosition(
+      position => {
+        //Will give you the location on location change
+
+        setLocationStatus('You are Here');
+        console.log(position);
+
+        //getting the Longitude from the location json
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+
+        //getting the Latitude from the location json
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+
+        //Setting Longitude state
+        setCurrentLongitude(currentLongitude);
+
+        //Setting Latitude state
+        setCurrentLatitude(currentLatitude);
+      },
+      error => {
+        setLocationStatus(error.message);
+      },
+      {
+        enableHighAccuracy: false,
+        maximumAge: 1000,
+      },
+    );
+  };
+
   const socket = io('http://localhost:3001');
   const dispatch = useDispatch();
   // getting user name from store
@@ -39,6 +141,24 @@ const CheckoutScreen = ({ navigation }) => {
     });
     setSubTotal(total);
   }, [foods]);
+  // getting foods restaurant from store
+  const createOrder = () => {
+    const order = {
+      items: foods,
+      total: subTotal + deliveryFee,
+      deliveryFee,
+      subTotal,
+      paymentType,
+      deliveryLocation: `${currentLatitude},${currentLongitude}`,
+    };
+    console.log('order ozlari', order);
+    // Axios.post('/api/v1/orders', order).then(res => {
+    //   console.log('res', res);
+    //   dispatch(saveOrder(res.data));
+    //   socket.emit('order', res.data);
+    //   // navigation.navigate('Orders');
+    // });
+  };
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
@@ -56,6 +176,24 @@ const CheckoutScreen = ({ navigation }) => {
             <Text style={styles.checkoutInfoText}>
               {firstName} {lastName}
             </Text>
+            <Text>{locationStatus}</Text>
+            <Text
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 16,
+              }}>
+              Longitude: {currentLongitude}
+            </Text>
+            <Text
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 16,
+              }}>
+              Latitude: {currentLatitude}
+            </Text>
+            <Button title="Button" onPress={getOneTimeLocation} />
             <Text style={styles.checkoutInfoTextItems}>
               Total ordered items: {cartFoodsCount} items
             </Text>
@@ -136,6 +274,7 @@ const CheckoutScreen = ({ navigation }) => {
             </TouchableOpacity>
             <Styled.GreenButton
               onPress={() => {
+                createOrder();
                 // navigation.navigate('Complete');
                 // save order details to store
                 // create random order id
@@ -164,11 +303,11 @@ const CheckoutScreen = ({ navigation }) => {
                 //     paymentType,
                 //   },
                 // });
-                socket.emit("otsimon", 'salom otcha donkacha');
-                socket.on("connect", () => {
+                socket.emit('otsimon', 'salom otcha donkacha');
+                socket.on('connect', () => {
                   console.log(socket.id);
                 });
-                socket.on("connect_error", (err) => {
+                socket.on('connect_error', err => {
                   console.log(err instanceof Error);
                   console.log(err.message);
                 });

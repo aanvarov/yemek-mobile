@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.11",
+    "@react-native-community/geolocation": "^2.1.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/drawer": "^6.3.0",
@@ -23,8 +24,8 @@
     "lottie-react-native": "^5.0.1",
     "react": "17.0.2",
     "react-native": "0.66.3",
-    "react-native-gesture-handler": "^2.2.0",
-    "react-native-reanimated": "^2.5.0",
+    "react-native-gesture-handler": "2.1.1",
+    "react-native-reanimated": "2.8.0",
     "react-native-root-toast": "^3.3.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.2",
@@ -35,7 +36,8 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.0",
     "socket.io-client": "^4.5.1",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

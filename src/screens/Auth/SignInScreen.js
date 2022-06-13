@@ -65,7 +65,7 @@ const SignInScreen = ({ navigation, route }) => {
               textContentType="telephoneNumber"
               keyboardType="default"
               style={styles.input}
-              placeholder="+998991234567"
+              placeholder="998991234567"
               value={data.phone}
               onChangeText={text => setData({ ...data, phone: text })}
             />
