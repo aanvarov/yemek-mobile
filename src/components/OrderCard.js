@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { COLORS } from '../constants';
 import Styled from '../styles';
+import OrderCardFoodCard from './OrderCardFoodCard';
 
 const OrderCard = ({ order }) => {
   console.log('order', order.items);
@@ -51,51 +52,114 @@ const OrderCard = ({ order }) => {
         </View>
       </View>
       <View style={styles.orderItems}>
-        {order.items.map((item, index) => (
-          <View key={index} style={styles.orderItem}>
-            <Text style={styles.orderItemTitle}>{item.name}</Text>
-            <Text style={styles.orderItemSubTitle}>
-              {item.quantity} x {item.price}
-            </Text>
-          </View>
-        ))}
+        <Text style={styles.foodsTitle}>Items</Text>
+        <OrderCardFoodCard foods={order.items} />
       </View>
-      <View style={styles.orderInfo}>
-        <View style={styles.orderInfoRight}>
-          <Text style={styles.orderInfoRightText}>{order.createdAt}</Text>
-          <Text style={styles.orderInfoRightText}>{order.status}</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 10,
+        }}>
+        <View>
+          <Text style={styles.title}>Ordered at:</Text>
+          <Text style={styles.subtitle}>
+            {order.createdAt.split('T')[1].slice(0, 5)}{' '}
+          </Text>
+          {/* <Text>{order.createdAt.split('T')[0]}</Text> */}
+        </View>
+        <View>
+          <Text style={styles.title}>Est.Time Delivery</Text>
+          <Text style={styles.subtitle}>15 min</Text>
+        </View>
+        <View>
+          <Text style={styles.title}>Status:</Text>
+          <Text
+            style={[
+              styles.subtitle,
+              { textTransform: 'capitalize', color: '#09B44D' },
+            ]}>
+            {order.status}
+          </Text>
         </View>
       </View>
-      <Styled.Title>Order Id: {order?.orderId}</Styled.Title>
-      <Styled.SubTitle>
-        Total number of foods: {order.totalCount}
-      </Styled.SubTitle>
-      <Styled.SubTitle>
-        Total price: {order.subTotal + order.fee}
-      </Styled.SubTitle>
-      <Styled.SubTitle>Payment Type: {order.paymentType}</Styled.SubTitle>
-      <Styled.Text>Foods:</Styled.Text>
-      <View style={{ flexDirection: 'row' }}>
-        {/* {order?.foods?.map(food => (
-          <View style={{ flexDirection: 'column' }}>
-            <Text>Name: {food.name}</Text>
-            <Text>Price: {food.price}</Text>
-          </View>
-        ))} */}
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <View>
+          <Text style={styles.title}>Payment Type:</Text>
+          <Text style={styles.subtitle}>{order.paymentType}</Text>
+        </View>
+        <View>
+          <Text style={styles.title}>Driver:</Text>
+          <Text style={styles.subtitle}>Not Assigned</Text>
+        </View>
+        <View>
+          <Text style={styles.title}>Delivered at:</Text>
+          <Text style={styles.subtitle}>
+            {/* {order.createdAt.split('T')[1].slice(0, 5)} */}
+            Not Delivered
+          </Text>
+        </View>
+      </View>
+      <View style={styles.orderFooter}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Cancel</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Confirm</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  button: {
+    padding: 10,
+    backgroundColor: '#12ff1299',
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#282B2E',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  orderFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    marginTop: 20,
+  },
+  subtitle: {
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 14,
+    lineHeight: 21,
+    color: '#282B2E',
+  },
+  title: {
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 12,
+    lineHeight: 18,
+    color: '#A5AAB0',
+  },
+  foodsTitle: {
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 15,
+    lineHeight: 18,
+    color: '#797979',
+    textTransform: 'uppercase',
+  },
   orderItems: {
     marginTop: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 12,
-    backgroundColor: '#F6F6F6',
   },
-
   resTitle: {
     fontStyle: 'normal',
     fontWeight: '600',

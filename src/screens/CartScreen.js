@@ -39,6 +39,11 @@ const CartScreen = () => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={{ marginBottom: 60 }}>
+            <Styled.SubTitle>Recent Orders</Styled.SubTitle>
+            {orders.map((item, index) => (
+              <OrderCard key={index} order={item} />
+            ))}
+            <Styled.SubTitle>All Orders</Styled.SubTitle>
             {orders.map((item, index) => (
               <OrderCard key={index} order={item} />
             ))}

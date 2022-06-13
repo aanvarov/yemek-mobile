@@ -151,13 +151,13 @@ const CheckoutScreen = ({ navigation }) => {
       paymentType,
       deliveryLocation: `${currentLatitude},${currentLongitude}`,
     };
-    console.log('order ozlari', order);
-    // Axios.post('/api/v1/orders', order).then(res => {
-    //   console.log('res', res);
-    //   dispatch(saveOrder(res.data));
-    //   socket.emit('order', res.data);
-    //   // navigation.navigate('Orders');
-    // });
+    console.log('order ozlari', order.items);
+    Axios.post('/api/v1/orders', order).then(res => {
+      console.log('res', res);
+      dispatch(saveOrder(res.data));
+      socket.emit('order', res.data);
+      // navigation.navigate('Orders');
+    });
   };
   return (
     <Styled.SafeAreaView>
