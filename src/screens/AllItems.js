@@ -24,7 +24,7 @@ const AllItem = ({ navigation }) => {
   const [foods, setFoods] = useState([]);
   // getting all foods from axios
   useEffect(() => {
-    Axios.get('/api/v1/foods')
+    Axios.get('/api/v1/foods/mobile')
       .then(res => {
         console.log('res data foods', res.data);
         setFoods(res.data);

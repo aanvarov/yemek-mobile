@@ -65,7 +65,7 @@ const screenOptions = {
   },
 };
 
-const BottomTabNavigation = () => {
+const BottomTabNavigation = ({ navigation }) => {
   return (
     <Tab.Navigator initialRouteName="Home" screenOptions={screenOptions}>
       <Tab.Screen

@@ -5,13 +5,13 @@ import ScreenHeader from '../components/ScreenHeader';
 import AccountProfileCard from '../components/AccountProfileCard';
 import Settings from '../components/Settings';
 
-const AccountScreen = () => {
+const AccountScreen = ({ navigation }) => {
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
         <ScreenHeader title="Account" />
         <AccountProfileCard />
-        <Settings />
+        <Settings navigation={navigation} />
       </Styled.Container>
     </Styled.SafeAreaView>
   );

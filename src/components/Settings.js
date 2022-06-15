@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { signOutSuccess } from '../store/Auth/actions';
 import Axios from '../utils/axios';
 
-const Settings = () => {
+const Settings = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const signOutHandler = () => {
@@ -36,8 +36,12 @@ const Settings = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <SettingsItemCard icon={setAccountIcon} title={'Personal Data'} />
         <SettingsItemCard icon={setNotificationIcon} title={'Notification'} />
-        <SettingsItemCard icon={setTrackingIcon} title={'Tracking Order'} />
-        <SettingsItemCard icon={setStatusIcon} title={'Order Status'} />
+        <SettingsItemCard
+          navigation={navigation}
+          icon={setTrackingIcon}
+          title={'Order History'}
+        />
+        {/* <SettingsItemCard icon={setStatusIcon} title={'Order Status'} /> */}
         {/* <SettingsItemCard icon={setLangIcon} title={'Language'} /> */}
         {/* <SettingsItemCard icon={setFaqIcon} title={'FAQs'} /> */}
       </ScrollView>

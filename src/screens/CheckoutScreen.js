@@ -151,7 +151,7 @@ const CheckoutScreen = ({ navigation }) => {
       paymentType,
       deliveryLocation: `${currentLatitude},${currentLongitude}`,
     };
-    console.log('order ozlari', order.items);
+    // console.log('order ozlari', order.items);
     Axios.post('/api/v1/orders', order).then(res => {
       console.log('res', res);
       dispatch(saveOrder(res.data));

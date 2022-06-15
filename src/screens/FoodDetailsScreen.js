@@ -27,8 +27,10 @@ const FoodDetailsScreen = ({ navigation, route }) => {
 
   const checkingFoodsRestaurant = () => {
     const cartFoods = store.getState().cart.foods;
-    cartFoods.forEach(food => {
-      if (food.restaurantId === food.restaurantId) {
+    cartFoods.forEach(item => {
+      if (item.restaurant._id === food?.restaurant._id) {
+        setIsSameRes(true);
+      } else {
         setIsSameRes(false);
       }
     });
@@ -175,6 +177,8 @@ const FoodDetailsScreen = ({ navigation, route }) => {
         </View>
         <Styled.GreenButton
           onPress={() => {
+            checkingFoodsRestaurant();
+            console.log('clicked', isSameRes);
             if (isSameRes) {
               dispatch(addedToCart({ ...food, counter }));
               Toast.show('Added to cart', {

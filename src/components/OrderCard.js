@@ -4,109 +4,143 @@ import { COLORS } from '../constants';
 import Styled from '../styles';
 import OrderCardFoodCard from './OrderCardFoodCard';
 
-const OrderCard = ({ order }) => {
-  console.log('order', order.items);
+// https://my.click.uz/services/pay?service_id=15892&merchant_id=11435&amount=20000&transaction_param=61d81e160658034a70a3f6b7&return_url=http://localhost:8003/api/payments/success?subscription_id=61d81e160658034a70a3f6b7
+
+const OrderCard = ({ order, navigation }) => {
+  // console.log('order', order.items);
+  let date = new Date(order.createdAt);
+  let dateString = date.toISOString().split('T')[0];
+  const orderDate = `${date.getHours()}:${date.getMinutes()}`;
   return (
     <View style={styles.orderContainer}>
-      <View
+      <Text
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          position: 'absolute',
+          top: 10,
+          left: 120,
+          fontStyle: 'italic',
+          fontWeight: '600',
         }}>
-        <View>
-          <Text style={styles.orderTitle}>Order No.: </Text>
-          <Text style={styles.orderSubTitle}>{order.orderId}</Text>
-        </View>
-        <View>
-          <Text style={styles.orderTitle}>Total to pay: </Text>
-          <Text
-            style={[
-              styles.orderSubTitle,
-              {
-                color: '#09B44D',
-                fontSize: 22,
-                textAlign: 'center',
-                marginTop: 6,
-              },
-            ]}>
-            {order.total}{' '}
-            <Text style={{ color: '#09B44D', fontSize: 12 }}>UZS</Text>
-          </Text>
-        </View>
-      </View>
-      <View
-        style={{
-          marginVertical: 10,
-          flexDirection: 'row',
-          alignItems: 'center',
+        {dateString}
+      </Text>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('OrderTracking', {
+            order: order,
+          });
         }}>
-        <Image
-          style={{ width: 67, height: 67 }}
-          source={require('../assets/images/resImage.png')}
-        />
-        <View style={{ flex: 1, marginLeft: 15 }}>
-          <Text style={styles.resTitle}>{order.restaurant.name}</Text>
-          <Text style={styles.phone}>Tel: {order.restaurant.phone}</Text>
-          <Text style={styles.phone}>{order.restaurant.address}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <View>
+            <Text style={styles.orderTitle}>Order No.: </Text>
+            <Text style={styles.orderSubTitle}>{order.orderId}</Text>
+          </View>
+          <View>
+            <Text style={styles.orderTitle}>Total to pay: </Text>
+            <Text
+              style={[
+                styles.orderSubTitle,
+                {
+                  color: '#09B44D',
+                  fontSize: 22,
+                  textAlign: 'center',
+                  marginTop: 6,
+                },
+              ]}>
+              {order.total}
+              <Text style={{ color: '#09B44D', fontSize: 12 }}>UZS</Text>
+            </Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.orderItems}>
-        <Text style={styles.foodsTitle}>Items</Text>
-        <OrderCardFoodCard foods={order.items} />
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 10,
-        }}>
-        <View>
-          <Text style={styles.title}>Ordered at:</Text>
-          <Text style={styles.subtitle}>
-            {order.createdAt.split('T')[1].slice(0, 5)}{' '}
-          </Text>
-          {/* <Text>{order.createdAt.split('T')[0]}</Text> */}
+        <View
+          style={{
+            marginVertical: 10,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <Image
+            style={{ width: 67, height: 67 }}
+            source={require('../assets/images/resImage.png')}
+          />
+          <View style={{ flex: 1, marginLeft: 15 }}>
+            <Text style={styles.resTitle}>{order.restaurant.name}</Text>
+            <Text style={styles.phone}>Tel: {order.restaurant.phone}</Text>
+            <Text style={styles.phone}>{order.restaurant.address}</Text>
+          </View>
         </View>
-        <View>
-          <Text style={styles.title}>Est.Time Delivery</Text>
-          <Text style={styles.subtitle}>15 min</Text>
+        <View style={styles.orderItems}>
+          <Text style={styles.foodsTitle}>Items</Text>
+          <OrderCardFoodCard foods={order.items} />
         </View>
-        <View>
-          <Text style={styles.title}>Status:</Text>
-          <Text
-            style={[
-              styles.subtitle,
-              { textTransform: 'capitalize', color: '#09B44D' },
-            ]}>
-            {order.status}
-          </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 10,
+          }}>
+          <View>
+            <Text style={styles.title}>Ordered at:</Text>
+            <Text style={styles.subtitle}>
+              {/* {order.createdAt.split('T')[1].slice(0, 5)} */}
+              {orderDate}
+            </Text>
+            {/* <Text>{order.createdAt.split('T')[0]}</Text> */}
+          </View>
+          <View>
+            <Text style={styles.title}>Est.Time Delivery</Text>
+            <Text style={styles.subtitle}>15 min</Text>
+          </View>
+          <View>
+            <Text style={styles.title}>Status:</Text>
+            <Text
+              style={[
+                styles.subtitle,
+                { textTransform: 'capitalize', color: '#09B44D' },
+              ]}>
+              {order.status}
+            </Text>
+          </View>
         </View>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-        <View>
-          <Text style={styles.title}>Payment Type:</Text>
-          <Text style={styles.subtitle}>{order.paymentType}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <View>
+            <Text style={styles.title}>Payment Type:</Text>
+            <Text style={styles.subtitle}>{order.paymentType}</Text>
+          </View>
+          <View>
+            <Text style={styles.title}>Driver:</Text>
+            <Text style={styles.subtitle}>Not Assigned</Text>
+          </View>
+          <View>
+            <Text style={styles.title}>Delivered at:</Text>
+            <Text style={styles.subtitle}>
+              {/* {order.createdAt.split('T')[1].slice(0, 5)} */}
+              Not Delivered
+            </Text>
+          </View>
         </View>
-        <View>
-          <Text style={styles.title}>Driver:</Text>
-          <Text style={styles.subtitle}>Not Assigned</Text>
-        </View>
-        <View>
-          <Text style={styles.title}>Delivered at:</Text>
-          <Text style={styles.subtitle}>
-            {/* {order.createdAt.split('T')[1].slice(0, 5)} */}
-            Not Delivered
-          </Text>
-        </View>
-      </View>
+      </TouchableOpacity>
       <View style={styles.orderFooter}>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            { flexDirection: 'row', alignItems: 'center' },
+          ]}>
+          <Image
+            source={require('../assets/images/repeat.png')}
+            style={{ marginRight: 3 }}
+          />
+          <Text style={styles.buttonText}>Repeat</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
@@ -180,9 +214,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     paddingHorizontal: 18,
-    paddingVertical: 20,
+    paddingVertical: 25,
+    paddingTop: 30,
     borderRadius: 8,
     backgroundColor: '#F3F3F3',
+    position: 'relative',
   },
   orderTitle: {
     // font-family: 'Poppins';

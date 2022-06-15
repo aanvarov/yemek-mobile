@@ -10,7 +10,7 @@ import { SvgCss } from 'react-native-svg';
 import Styled from '../styles';
 import arrowRightSecondIcon from '../assets/images/svg/arrowRightSecondIcon';
 
-const SettingsItemCard = ({ icon, title }) => {
+const SettingsItemCard = ({ icon, title, navigation }) => {
   const openURL = url => {
     Linking.canOpenURL(url).then(supported => {
       if (!supported) {
@@ -23,9 +23,12 @@ const SettingsItemCard = ({ icon, title }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        openURL(
-          'https://my.click.uz/services/pay/?service_id=15892&merchant_id=11435&amount=1000',
-        );
+        if (title === 'Order History') {
+          navigation.navigate('OrderHistory');
+        }
+        // openURL(
+        //   'https://my.click.uz/services/pay/?service_id=15892&merchant_id=11435&amount=1000',
+        // );
       }}>
       <View style={styles.container}>
         <SvgCss xml={icon} style={styles.icon} />

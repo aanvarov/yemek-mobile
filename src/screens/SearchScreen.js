@@ -13,9 +13,9 @@ const SearchScreen = ({ navigation }) => {
   // getting all foods from axios
 
   useEffect(() => {
-    Axios.get('/api/v1/foods')
+    Axios.get('/api/v1/foods/mobile')
       .then(res => {
-        console.log('res data categories', res.data);
+        console.log('res data foods search', res.data);
         setSearched(res.data);
         setPopularItems(res.data);
       })

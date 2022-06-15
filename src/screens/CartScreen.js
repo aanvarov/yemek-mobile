@@ -14,13 +14,13 @@ import Axios from '../utils/axios';
 import store from '../store';
 import OrderCard from '../components/OrderCard';
 
-const CartScreen = () => {
+const CartScreen = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     Axios.get('/api/v1/orders/mobile')
       .then(res => {
-        console.log('res data orders errr', res.data);
+        // console.log('res data orders errr', res.data);
         setOrders(res.data);
       })
       .catch(err => {
@@ -41,12 +41,12 @@ const CartScreen = () => {
             style={{ marginBottom: 60 }}>
             <Styled.SubTitle>Recent Orders</Styled.SubTitle>
             {orders.map((item, index) => (
-              <OrderCard key={index} order={item} />
+              <OrderCard navigation={navigation} key={index} order={item} />
             ))}
-            <Styled.SubTitle>All Orders</Styled.SubTitle>
+            {/* <Styled.SubTitle>All Orders</Styled.SubTitle>
             {orders.map((item, index) => (
               <OrderCard key={index} order={item} />
-            ))}
+            ))} */}
           </ScrollView>
         ) : (
           <View style={styles.emptyCart}>

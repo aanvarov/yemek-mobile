@@ -11,6 +11,8 @@ import FoodDetailsScreen from '../screens/FoodDetailsScreen';
 import MyCart from '../screens/MyCart';
 import CheckoutScreen from '../screens/CheckoutScreen';
 import CompleteScreen from '../screens/CompleteScreen';
+import OrderTracking from '../screens/OrderTracking';
+import OrderHistory from '../screens/OrderHistory';
 
 import BottomTabNavigation from './BottomNavigation';
 import AllItem from '../screens/AllItems';
@@ -31,6 +33,8 @@ export const SignedInStack = () => (
     <Stack.Screen name="AllItems" component={AllItem} />
     <Stack.Screen name="Checkout" component={CheckoutScreen} />
     <Stack.Screen name="Complete" component={CompleteScreen} />
+    <Stack.Screen name="OrderTracking" component={OrderTracking} />
+    <Stack.Screen name="OrderHistory" component={OrderHistory} />
   </Stack.Navigator>
 );
 
