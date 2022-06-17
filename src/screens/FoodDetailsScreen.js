@@ -138,6 +138,21 @@ const FoodDetailsScreen = ({ navigation, route }) => {
         </Styled.Text>
         <Styled.SubTitle>{food.description}</Styled.SubTitle>
       </View>
+      {food.status == 'outofstock' && (
+        <View>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: 'bold',
+              marginBottom: 10,
+              marginTop: 10,
+              textAlign: 'center',
+              color: 'red',
+            }}>
+            Out of stock
+          </Text>
+        </View>
+      )}
       <View style={styles.resInfo}>
         <View style={styles.resImageCon}>
           <Image
@@ -176,10 +191,20 @@ const FoodDetailsScreen = ({ navigation, route }) => {
           </Text>
         </View>
         <Styled.GreenButton
+          disabled={food.status == 'outofstock' && true}
           onPress={() => {
             checkingFoodsRestaurant();
             console.log('clicked', isSameRes);
-            if (isSameRes) {
+            if (food?.status == 'outofstock') {
+              Toast.show('This food is out of stock', {
+                duration: Toast.durations.SHORT,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true,
+                hideOnPress: true,
+                delay: 0,
+              });
+            } else if (isSameRes) {
               dispatch(addedToCart({ ...food, counter }));
               Toast.show('Added to cart', {
                 duration: Toast.durations.SHORT,

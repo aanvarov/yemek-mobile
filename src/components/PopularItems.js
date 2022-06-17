@@ -10,6 +10,7 @@ import Styled from '../styles';
 import { COLORS } from '../constants';
 import PopularItemCard from '../components/PopularItemCard';
 import { ScrollView } from 'react-native-gesture-handler';
+import Toast from 'react-native-root-toast';
 
 // const items = [
 //   {

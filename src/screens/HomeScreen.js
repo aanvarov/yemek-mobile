@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native';
 import Styled from '../styles';
 import { SvgCss } from 'react-native-svg';
 import NotificationIcon from '../assets/images/svg/notificationIcon';
@@ -12,6 +19,7 @@ import Axios from '../utils/axios';
 import { useDispatch } from 'react-redux';
 import store from '../store';
 import RestaurantsList from '../components/RestaurantsList';
+import socket from '../utils/socket.service';
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -19,6 +27,7 @@ const HomeScreen = ({ navigation }) => {
   const [restaurants, setRestaurants] = useState([]);
   const [popularItems, setPopularItems] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [fakeCounter, setFakeCounter] = useState(0);
   // calculate all counts of foods in cart from store
   const cartFoods = store.getState().cart.foods;
@@ -32,16 +41,28 @@ const HomeScreen = ({ navigation }) => {
   const [category, setCategory] = useState('All');
   const [restaurant, setRestaurant] = useState({});
 
-  useEffect(() => {
+  const getData = () => {
+    setLoading(true);
     Axios.get('/api/v1/restaurants/mobile')
       .then(res => {
         console.log('res data restaurants errr', res.data);
         setRestaurants(res.data);
+        setLoading(false);
       })
       .catch(err => {
         console.log(err);
+        setLoading(false);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    getData();
+  }, [fakeCounter]);
+
+  socket.on('updateFoodStatus', () => {
+    console.log('updateFood');
+    setFakeCounter(fakeCounter + 1);
+  });
 
   useEffect(() => {
     console.log('resssss mobile id', restaurant?._id);
@@ -85,6 +106,9 @@ const HomeScreen = ({ navigation }) => {
   return (
     <Styled.SafeAreaView>
       <Styled.Container>
+        <View style={[styles.modal, loading && { display: 'flex' }]}>
+          <ActivityIndicator size="large" color="#FFFF00" />
+        </View>
         <View style={styles.header}>
           {/* <View style={styles.lineWrapper}>
             <View style={styles.line} />
@@ -154,6 +178,18 @@ const HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  modal: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    zIndex: 1,
+    display: 'none',
+  },
   header: {
     // backgroundColor: '#F3F3F3',
     marginTop: 12,

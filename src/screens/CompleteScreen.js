@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
 import React from 'react';
 import Styled from '../styles';
+import socket from '../utils/socket.service';
 
 const CompleteScreen = ({ navigation }) => {
   return (
@@ -17,6 +18,7 @@ const CompleteScreen = ({ navigation }) => {
         </View>
         <Styled.GreenButton
           onPress={() => {
+            socket.emit('order-created-back');
             navigation.navigate('BottomTabNavigation', { screen: 'Orders' });
           }}>
           <Styled.GreenButtonText>My Orders</Styled.GreenButtonText>

@@ -18,9 +18,9 @@ import AddressIcon from '../assets/images/svg/addressIcon';
 import { COLORS } from '../constants';
 import { useDispatch } from 'react-redux';
 import { saveOrder } from '../store/Order/actions';
-import { io } from 'socket.io-client';
 import Axios from '../utils/axios';
 import Geolocation from '@react-native-community/geolocation';
+import socket from '../utils/socket.service';
 
 const CheckoutScreen = ({ navigation }) => {
   const deliveryFee = 5000;
@@ -120,7 +120,6 @@ const CheckoutScreen = ({ navigation }) => {
     );
   };
 
-  const socket = io('http://localhost:3001');
   const dispatch = useDispatch();
   // getting user name from store
   const firstName = store.getState().auth?.user?.firstName;
@@ -155,7 +154,11 @@ const CheckoutScreen = ({ navigation }) => {
     Axios.post('/api/v1/orders', order).then(res => {
       console.log('res', res);
       dispatch(saveOrder(res.data));
+      navigation.navigate('Complete');
       socket.emit('order', res.data);
+      store.dispatch({
+        type: 'CLEAR_CART',
+      });
       // navigation.navigate('Orders');
     });
   };
@@ -176,7 +179,7 @@ const CheckoutScreen = ({ navigation }) => {
             <Text style={styles.checkoutInfoText}>
               {firstName} {lastName}
             </Text>
-            <Text>{locationStatus}</Text>
+            {/* <Text>{locationStatus}</Text>
             <Text
               style={{
                 justifyContent: 'center',
@@ -184,16 +187,16 @@ const CheckoutScreen = ({ navigation }) => {
                 marginTop: 16,
               }}>
               Longitude: {currentLongitude}
-            </Text>
-            <Text
+            </Text> */}
+            {/* <Text
               style={{
                 justifyContent: 'center',
                 alignItems: 'center',
                 marginTop: 16,
               }}>
               Latitude: {currentLatitude}
-            </Text>
-            <Button title="Button" onPress={getOneTimeLocation} />
+            </Text> */}
+            {/* <Button title="Button" onPress={getOneTimeLocation} /> */}
             <Text style={styles.checkoutInfoTextItems}>
               Total ordered items: {cartFoodsCount} items
             </Text>
@@ -275,7 +278,6 @@ const CheckoutScreen = ({ navigation }) => {
             <Styled.GreenButton
               onPress={() => {
                 createOrder();
-                // navigation.navigate('Complete');
                 // save order details to store
                 // create random order id
                 // const orderId = Math.floor(Math.random() * 1000000);
@@ -291,9 +293,6 @@ const CheckoutScreen = ({ navigation }) => {
                 // );
                 // clear cart
                 // store.dispatch({
-                //   type: 'CLEAR_CART',
-                // });
-                // store.dispatch({
                 //   type: 'SAVE_ORDER',
                 //   payload: {
                 //     foods,
@@ -304,13 +303,6 @@ const CheckoutScreen = ({ navigation }) => {
                 //   },
                 // });
                 socket.emit('otsimon', 'salom otcha donkacha');
-                socket.on('connect', () => {
-                  console.log(socket.id);
-                });
-                socket.on('connect_error', err => {
-                  console.log(err instanceof Error);
-                  console.log(err.message);
-                });
                 console.log('salom');
               }}>
               <Styled.Text color={COLORS.WHITE}>Order Now</Styled.Text>

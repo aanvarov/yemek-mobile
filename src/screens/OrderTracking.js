@@ -18,7 +18,12 @@ const OrderTracking = ({ route, navigation }) => {
     <Styled.SafeAreaView>
       <Styled.Container>
         <View style={styles.header}>
-          <Pressable onPress={() => navigation.goBack()} style={styles.backBtn}>
+          <Pressable
+            onPress={() => {
+              console.log('orqaga');
+              navigation.goBack();
+            }}
+            style={styles.backBtn}>
             <Image
               style={styles.backIcon}
               source={require('../assets/images/BackGrey.png')}
@@ -27,10 +32,10 @@ const OrderTracking = ({ route, navigation }) => {
           <ScreenHeader title="Tracking Order" />
         </View>
         <View style={styles.container}>
-          <Text>Order tracklash</Text>
+          <Text>Order tracklashga</Text>
         </View>
-        <View style={styles.container}>
-          {/* <MapView
+        {/* <View style={styles.container}>
+          <MapView
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
             style={styles.map}
             region={{
@@ -38,8 +43,8 @@ const OrderTracking = ({ route, navigation }) => {
               longitude: -122.4324,
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
-            }}></MapView> */}
-        </View>
+            }}></MapView>
+        </View> */}
       </Styled.Container>
     </Styled.SafeAreaView>
   );
@@ -58,7 +63,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 10,
   },
-
   container: {
     ...StyleSheet.absoluteFillObject,
     height: 400,

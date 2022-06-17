@@ -13,11 +13,12 @@ import { COLORS } from '../constants';
 import Axios from '../utils/axios';
 import store from '../store';
 import OrderCard from '../components/OrderCard';
+import socket from '../utils/socket.service';
 
 const CartScreen = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
+  const getOrders = () => {
     Axios.get('/api/v1/orders/mobile')
       .then(res => {
         // console.log('res data orders errr', res.data);
@@ -26,7 +27,19 @@ const CartScreen = ({ navigation }) => {
       .catch(err => {
         console.log(err);
       });
+  };
+  useEffect(() => {
+    getOrders();
   }, []);
+
+  socket.on('order-created', () => {
+    getOrders();
+  });
+
+  // sort orders by date
+  const sortedOrders = orders.sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
 
   return (
     <Styled.SafeAreaView>
@@ -35,7 +48,7 @@ const CartScreen = ({ navigation }) => {
           <ActivityIndicator size="large" color="#FFFF00" />
         </View>
         <ScreenHeader title="Orders" />
-        {orders.length > 0 ? (
+        {sortedOrders.length > 0 ? (
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={{ marginBottom: 60 }}>
