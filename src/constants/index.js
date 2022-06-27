@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 export const baseURL =
   process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3001'
+    ? 'http://localhost:4001'
     : 'https://yemek.alitechbot.uz';
 // ? 'https://33f9-82-215-99-195.ngrok.io'
 

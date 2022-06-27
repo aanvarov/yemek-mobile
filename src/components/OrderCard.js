@@ -1,16 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { COLORS } from '../constants';
 import Styled from '../styles';
 import OrderCardFoodCard from './OrderCardFoodCard';
+import Axios from '../utils/axios';
+import store from '../store';
+import { useDispatch } from 'react-redux';
+import { saveOrder } from '../store/Order/actions';
+import socket from '../utils/socket.service';
 
 // https://my.click.uz/services/pay?service_id=15892&merchant_id=11435&amount=20000&transaction_param=61d81e160658034a70a3f6b7&return_url=http://localhost:8003/api/payments/success?subscription_id=61d81e160658034a70a3f6b7
 
 const OrderCard = ({ order, navigation }) => {
   // console.log('order', order.items);
+  const [status, setStatus] = useState(order?.status);
+  const dispatch = useDispatch();
   let date = new Date(order.createdAt);
   let dateString = date.toISOString().split('T')[0];
   const orderDate = `${date.getHours()}:${date.getMinutes()}`;
+
+  const updateStatus = async status => {
+    await Axios.put(`/api/v1/orders/${order?._id}`, { ...order, status })
+      .then(res => {
+        setStatus(res.data.status);
+      })
+      .catch(err => {
+        console.log('login error', err.response.data.message);
+      });
+  };
+
+  const repeatOrder = async () => {
+    const orderData = {
+      items: order?.items,
+      total: order?.total,
+      deliveryFee: 5000,
+      subTotal: order?.subTotal,
+      paymentType: order?.paymentType,
+      deliveryLocation: order?.deliveryLocation,
+    };
+    await Axios.post('/api/v1/orders', orderData).then(res => {
+      dispatch(saveOrder(res.data));
+      navigation.navigate('Complete');
+      socket.emit('order', res.data);
+      store.dispatch({
+        type: 'CLEAR_CART',
+      });
+    });
+  };
+
   return (
     <View style={styles.orderContainer}>
       <Text
@@ -67,9 +104,9 @@ const OrderCard = ({ order, navigation }) => {
             source={require('../assets/images/resImage.png')}
           />
           <View style={{ flex: 1, marginLeft: 15 }}>
-            <Text style={styles.resTitle}>{order.restaurant.name}</Text>
-            <Text style={styles.phone}>Tel: {order.restaurant.phone}</Text>
-            <Text style={styles.phone}>{order.restaurant.address}</Text>
+            <Text style={styles.resTitle}>{order?.restaurant?.name}</Text>
+            <Text style={styles.phone}>Tel: {order?.restaurant?.phone}</Text>
+            <Text style={styles.phone}>{order?.restaurant?.address}</Text>
           </View>
         </View>
         <View style={styles.orderItems}>
@@ -102,7 +139,7 @@ const OrderCard = ({ order, navigation }) => {
                 styles.subtitle,
                 { textTransform: 'capitalize', color: '#09B44D' },
               ]}>
-              {order.status}
+              {status}
             </Text>
           </View>
         </View>
@@ -139,12 +176,18 @@ const OrderCard = ({ order, navigation }) => {
             source={require('../assets/images/repeat.png')}
             style={{ marginRight: 3 }}
           />
-          <Text style={styles.buttonText}>Repeat</Text>
+          <Text style={styles.buttonText} onPress={repeatOrder}>
+            Repeat
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => updateStatus('cancel')}>
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => updateStatus('delivered')}>
           <Text style={styles.buttonText}>Confirm</Text>
         </TouchableOpacity>
       </View>
