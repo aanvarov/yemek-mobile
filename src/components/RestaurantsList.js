@@ -4,7 +4,7 @@ import Styled from '../styles';
 import { COLORS } from '../constants';
 import { useEffect } from 'react';
 
-const RestaurantsList = ({ restaurants, setRestaurant, restaurant }) => {
+const RestaurantsList = ({ restaurants = [], setRestaurant, restaurant }) => {
   useEffect(() => {
     setRestaurant(restaurants[0]);
   }, [restaurants]);

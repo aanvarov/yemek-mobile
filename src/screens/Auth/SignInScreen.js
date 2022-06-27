@@ -37,14 +37,15 @@ const SignInScreen = ({ navigation, route }) => {
     //     accessToken: '123456789',
     //   }),
     // );
+
     Axios.post('/api/v1/auth/sessions', data)
       .then(res => {
         console.log('res data', res);
         dispatch(signInSuccess(res.data));
       })
       .catch(err => {
-        setSignInError(err.response.data.message);
-        console.log('login error', err.response.data.message);
+        setSignInError(err?.response?.data?.message);
+        console.log('login error', err?.response?.data?.message);
       });
   };
   return (

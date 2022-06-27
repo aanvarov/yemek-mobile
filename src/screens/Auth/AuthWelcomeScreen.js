@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import Styled from '../../styles';
 import LottieView from 'lottie-react-native';
 import { SvgCss } from 'react-native-svg';

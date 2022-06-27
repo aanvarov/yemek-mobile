@@ -45,8 +45,8 @@ const HomeScreen = ({ navigation }) => {
     setLoading(true);
     Axios.get('/api/v1/restaurants/mobile')
       .then(res => {
-        console.log('res data restaurants errr', res.data);
-        setRestaurants(res.data);
+        console.log('res data restaurants errr', res?.data);
+        setRestaurants(res?.data);
         setLoading(false);
       })
       .catch(err => {
@@ -90,6 +90,9 @@ const HomeScreen = ({ navigation }) => {
           console.log(err);
         });
     }
+    return () => {
+      setPopularItems([]);
+    };
   }, [category, restaurant]);
 
   useEffect(() => {
