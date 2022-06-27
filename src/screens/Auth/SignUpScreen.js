@@ -66,7 +66,7 @@ const SignUpScreen = ({ navigation }) => {
           .catch(err => {
             // console.log('rrrooooo', err.response.data.error);
             setLoading(false);
-            Toast.show(err.response.data.error, {
+            Toast.show(err?.response?.data?.error, {
               duration: Toast.durations.LONG,
               position: Toast.positions.BOTTOM,
               shadow: true,

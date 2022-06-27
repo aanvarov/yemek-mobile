@@ -26,7 +26,7 @@ import { COLORS } from '../constants';
 //   },
 // ];
 
-const Categories = ({ categories, setCategory, category }) => {
+const Categories = ({ categories = [], setCategory, category }) => {
   return (
     <>
       <Styled.SubTitle>Categories</Styled.SubTitle>

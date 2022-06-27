@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 import { COLORS, STYLE_CONFIGS } from '../constants';
+
 import {
   SafeAreaView,
   TouchableOpacity,
   Text,
   View,
   Pressable,
+  Dimensions,
+  Platform,
 } from 'react-native';
-import { Dimensions } from 'react-native';
 
 const S = {};
 
@@ -21,6 +23,7 @@ S.Container = styled(View)`
   padding: 0px ${STYLE_CONFIGS.PAGE.PADDING_HORIZONTAL}px;
   flex: 1;
   background-color: ${COLORS.WHITE};
+  ${Platform.OS === 'android' && 'padding-bottom: 20px;'}
 `;
 
 S.Title = styled(Text)`

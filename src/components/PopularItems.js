@@ -43,7 +43,7 @@ import Toast from 'react-native-root-toast';
 //   },
 // ];
 
-const PopularItems = ({ navigation, popularItems, setFakeCounter }) => {
+const PopularItems = ({ navigation, popularItems = [], setFakeCounter }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
