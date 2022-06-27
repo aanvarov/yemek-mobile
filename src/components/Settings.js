@@ -34,8 +34,16 @@ const Settings = ({ navigation }) => {
         Settings
       </Styled.Title>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <SettingsItemCard icon={setAccountIcon} title={'Personal Data'} />
-        <SettingsItemCard icon={setNotificationIcon} title={'Notification'} />
+        <SettingsItemCard
+          navigation={navigation}
+          icon={setAccountIcon}
+          title={'Personal Data'}
+        />
+        <SettingsItemCard
+          navigation={navigation}
+          icon={setNotificationIcon}
+          title={'Notifications'}
+        />
         <SettingsItemCard
           navigation={navigation}
           icon={setTrackingIcon}

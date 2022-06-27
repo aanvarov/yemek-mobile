@@ -15,9 +15,9 @@ import MapViewDirections from 'react-native-maps-directions';
 
 const OrderTracking = ({ route, navigation }) => {
   const { order } = route.params;
-  console.log('tracking order', order.restaurant.geoLocation);
+  console.log('tracking order', order?.restaurant?.geoLocation);
   const [lat, long] = order.deliveryLocation.split(',');
-  // const [resLat, resLong] = order?.restaurant?.geoLocation(',');
+  const [resLat, resLong] = order?.restaurant?.geoLocation.split(',');
   console.log('latitude', lat, long);
   const [min, setMin] = useState(0);
   const [kilo, setKilo] = useState(0);
@@ -53,17 +53,17 @@ const OrderTracking = ({ route, navigation }) => {
           provider={PROVIDER_GOOGLE} // remove if not using Google Maps
           style={styles.map}
           region={{
-            // latitude: parseFloat(lat),
-            // longitude: parseFloat(long),
-            latitude: 41.3065038,
-            longitude: 69.2838429,
+            latitude: parseFloat(lat),
+            longitude: parseFloat(long),
+            // latitude: 41.3065038,
+            // longitude: 69.2838429,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}>
           <Marker
             coordinate={{
-              latitude: 41.3065038,
-              longitude: 69.2838429,
+              latitude: parseFloat(lat),
+              longitude: parseFloat(long),
             }}
             title="Your Location"
             description="Your Location">
@@ -82,8 +82,8 @@ const OrderTracking = ({ route, navigation }) => {
           </Marker>
           <Marker
             coordinate={{
-              latitude: 41.3055038,
-              longitude: 69.2868429,
+              latitude: parseFloat(resLat),
+              longitude: parseFloat(resLong),
             }}
             title="Your Location"
             description="Your Location">
@@ -102,12 +102,12 @@ const OrderTracking = ({ route, navigation }) => {
           </Marker>
           <MapViewDirections
             origin={{
-              latitude: 41.3065038,
-              longitude: 69.2838429,
+              latitude: parseFloat(lat),
+              longitude: parseFloat(long),
             }}
             destination={{
-              latitude: 41.3055038,
-              longitude: 69.2868429,
+              latitude: parseFloat(resLat),
+              longitude: parseFloat(resLong),
             }}
             apikey={'AIzaSyB_Ok8MTJKLjZUSJqXDcGMSPGIH1Vd6nmE'}
             strokeWidth={4}

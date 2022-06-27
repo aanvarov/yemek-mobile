@@ -20,12 +20,20 @@ const SettingsItemCard = ({ icon, title, navigation }) => {
       }
     });
   };
+  let screen = '';
+  if (title === 'Personal Data') {
+    screen = 'PersonalData';
+  }
+  if (title === 'Notifications') {
+    screen = 'Notifications';
+  }
+  if (title === 'Order History') {
+    screen = 'OrderHistory';
+  }
   return (
     <TouchableOpacity
       onPress={() => {
-        if (title === 'Order History') {
-          navigation.navigate('OrderHistory');
-        }
+        navigation.navigate(screen);
         // openURL(
         //   'https://my.click.uz/services/pay/?service_id=15892&merchant_id=11435&amount=1000',
         // );

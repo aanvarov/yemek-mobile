@@ -13,6 +13,8 @@ import CheckoutScreen from '../screens/CheckoutScreen';
 import CompleteScreen from '../screens/CompleteScreen';
 import OrderTracking from '../screens/OrderTracking';
 import OrderHistory from '../screens/OrderHistory';
+import PersonalData from '../screens/PersonalData';
+import Notifications from '../screens/Notifications';
 
 import BottomTabNavigation from './BottomNavigation';
 import AllItem from '../screens/AllItems';
@@ -34,7 +36,9 @@ export const SignedInStack = () => (
     <Stack.Screen name="Checkout" component={CheckoutScreen} />
     <Stack.Screen name="Complete" component={CompleteScreen} />
     <Stack.Screen name="OrderTracking" component={OrderTracking} />
+    <Stack.Screen name="PersonalData" component={PersonalData} />
     <Stack.Screen name="OrderHistory" component={OrderHistory} />
+    <Stack.Screen name="Notifications" component={Notifications} />
   </Stack.Navigator>
 );
 
