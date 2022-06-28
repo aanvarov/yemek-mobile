@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { baseURL } from '../constants';
 
-const socket = io('ws://yemek.alitechbot.uz', {
+const socket = io('https://yemek.alitechbot.uz', {
   transports: ['websocket'],
 });
 
